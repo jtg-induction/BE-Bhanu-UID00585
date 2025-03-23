@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import connection
 from django.test import TestCase
 
-from todoapp.todos import utils as todos_utils
+from todos import utils as todos_utils
 
 
 class TestSetupMixin(object):
@@ -1424,14 +1424,14 @@ class ORMUtilTest(TestSetupMixin, TestCase):
 
     def test_fetch_project_with_member_name_start_or_end_with_a(self):
         expected_data = [
+            {'project_name': 'Project B', 'done': True, 'max_members': 2},
+            {'project_name': 'Project C', 'done': False, 'max_members': 3},
+            {'project_name': 'Project E', 'done': False, 'max_members': 1},
+            {'project_name': 'Project F', 'done': False, 'max_members': 5},
             {'project_name': 'Project G', 'done': False, 'max_members': 2},
+            {'project_name': 'Project I', 'done': True, 'max_members': 2},
             {'project_name': 'Project J', 'done': True, 'max_members': 3},
             {'project_name': 'Project K', 'done': False, 'max_members': 4},
-            {'project_name': 'Project B', 'done': True, 'max_members': 2},
-            {'project_name': 'Project I', 'done': True, 'max_members': 2},
-            {'project_name': 'Project E', 'done': False, 'max_members': 1},
-            {'project_name': 'Project C', 'done': False, 'max_members': 3},
-            {'project_name': 'Project F', 'done': False, 'max_members': 5}
         ]
 
         db_hit_count = len(connection.queries)
