@@ -10,7 +10,6 @@ class Todoserializer(serializers.ModelSerializer):
     
    
     status = serializers.SerializerMethodField()
-    # created_at=serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(source="date_created", format="%I:%M %p, %d %b, %Y")
     creator = CustomUserserializerWithoutid(source='user', read_only=True)
     
@@ -50,6 +49,29 @@ class Tododaterangeserializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         return "Done" if obj.done else "Pending"
+    
+
+class TodoCreateSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(write_only=True)  
+    todo = serializers.CharField(write_only=True)  
+
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    date_created = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Todo
+        fields = "__all__"
+
+class TodoupdateSerializerlizer(serializers.ModelSerializer):
+    done = serializers.BooleanField()
+    name = serializers.CharField(source='todo', read_only=True) 
+    todo=serializers.CharField()
+    class Meta:
+        model=Todo
+        fields=["todo","done","name"]
+    
+
          
 
 
