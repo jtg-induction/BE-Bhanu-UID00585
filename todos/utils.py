@@ -154,7 +154,9 @@ def fetch_users_todo_stats():
         pending_count=Count("todo", filter=Q(todo__done=False)),
     ).only("id", "first_name", "last_name", "email")
     serializer = UserTodoStatsSerializer(users, many=True)
-    return serializer.data
+    return serializer.data 
+    
+    
 
 
 # Add code to this util to return top five users with maximum number of pending todos in specified format.
