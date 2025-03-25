@@ -140,7 +140,7 @@ def fetch_users_todo_stats():
     ).only("id","first_name","last_name","email")
     serializer = UserTodoStatsSerializer(users, many=True)
     print(serializer.data[0])
-    return serializer.data
+    return serializer.data 
     
     
 
