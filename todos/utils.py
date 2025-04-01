@@ -260,7 +260,6 @@ def fetch_completed_todos_with_in_date_range(start, end):
             "date_created",
         )
     )
-
     return TodoDateRangeSerializer(todos, many=True).data
 
 
