@@ -42,16 +42,22 @@ class Tododaterangeserializer(serializers.ModelSerializer):
     
 
 class TodoCreateSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField(write_only=True)  
-    todo = serializers.CharField(write_only=True)  
+    #user_id = serializers.IntegerField(write_only=True)  
+    todo = serializers.CharField(write_only=True,)  
 
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
-    date_created = serializers.DateTimeField(read_only=True)
+    # date_created = serializers.DateTimeField(read_only=True)
 
     class Meta:
         model = Todo
-        fields = "__all__"
+        fields = ["id", "name", "date_created", "todo"]
+
+    def create(self, validated_data):
+        validated_data["user"] = self.context["request"].user
+        validated_data["name"] = validated_data.pop("todo")
+        print(validated_data)
+        return super().create(validated_data)
 
 class TodoupdateSerializerlizer(serializers.ModelSerializer):
     done = serializers.BooleanField()
@@ -60,3 +66,15 @@ class TodoupdateSerializerlizer(serializers.ModelSerializer):
     class Meta:
         model=Todo
         fields=["todo","done","name"]
+
+class TodoViewSetSerializer(serializers.ModelSerializer):
+    """
+    Serializer for presenting Todo data in responses.
+    """
+
+    todo_id = serializers.IntegerField(source="id")
+    todo = serializers.CharField(source="name")
+
+    class Meta:
+        model = Todo
+        fields = ["todo_id", "todo", "done"]        
