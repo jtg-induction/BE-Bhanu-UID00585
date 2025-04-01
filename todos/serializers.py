@@ -1,14 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
-
 from users.models import CustomUser
 from .models import Todo
 from users.serializers import CustomUserserializerWithoutid
 
 
 class Todoserializer(serializers.ModelSerializer):
-
     status = serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(source="date_created", format="%I:%M %p, %d %b, %Y")
     creator = CustomUserserializerWithoutid(source='user', read_only=True)
@@ -22,13 +19,6 @@ class Todoserializer(serializers.ModelSerializer):
             return "Done"
         else:
             return "To Do"
-
-    # def get_created_at(self, obj):
-    #     return obj.date_created.strftime("%I:%M %p, %d %b, %Y")
-
-
-# Add your serializer(s) here
-
 
 class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
     pending_count = serializers.IntegerField()
@@ -73,9 +63,3 @@ class TodoupdateSerializerlizer(serializers.ModelSerializer):
     class Meta:
         model=Todo
         fields=["todo","done","name"]
-    
-
-         
-
-
-
