@@ -3,17 +3,11 @@ from django.db.models.functions import Concat
 from projects.serializers import ProjectSerializerstartswithA, Projectserializers
 from todos.serializers import Tododaterangeserializer, Todoserializer
 from users.models  import CustomUser
-
 from todos.models import Todo
-
 from projects.models import Project
-
 from django.db.models import Count,Prefetch,Q,Value
-
 import json
-
 from users.serializers import CustomUserserializer, UserPendingTodoStatsSerializer, UserTodoStatsSerializer
-
 # Add code to this util to return all users list in specified format.
 # [ {
 #   "id": 1,
@@ -38,9 +32,6 @@ def fetch_all_users():
     users = CustomUser.objects.only("id", "first_name", "last_name", "email")
     serializer = CustomUserserializer(users, many=True)
     return serializer.data
-
-
-
 # Add code to this util to  return all todos list (done/to do) along with user details in specified format.
 # [{
 #   "id": 1,
@@ -75,9 +66,6 @@ def fetch_all_todo_list_with_user_details():
     serializer=Todoserializer(todos, many=True)
     print(serializer.data[0])
     return serializer.data
-    
-
-
 # Add code to this util to return all projects with following details in specified format.
 # [{
 #   "id": 1,
@@ -106,10 +94,6 @@ def fetch_projects_details():
     serializer = Projectserializers(projects, many=True)
     print(serializer.data[0])
     return serializer.data
-    
-    
-
-
 # Add code to this util to  return stats (done & to do count) of all users in specified format.
 # [{
 #   "id": 1,
@@ -141,10 +125,6 @@ def fetch_users_todo_stats():
     serializer = UserTodoStatsSerializer(users, many=True)
     print(serializer.data[0])
     return serializer.data 
-    
-    
-
-
 # Add code to this util to return top five users with maximum number of pending todos in specified format.
 # [{
 #   "id": 1,
@@ -175,9 +155,6 @@ def fetch_five_users_with_max_pending_todos():
     serializer = UserPendingTodoStatsSerializer(users,many=True)
     print(serializer.data[0])
     return serializer.data
-    
-
-
 # Add code to this util to return users with given number of pending todos in specified format.
 # e.g where n=4
 # [{
@@ -212,9 +189,6 @@ def fetch_users_with_n_pending_todos(n):
     serializer = UserPendingTodoStatsSerializer(users, many=True)
     print(serializer.data[0])
     return serializer.data
-    
-
-
 # Add code to this util to return todos that were created in between given dates (add proper order too) and marked as
 # done in specified format.
 #  e.g. for given range - from 12-01-2021 to 12-02-2021
@@ -254,9 +228,6 @@ def fetch_completed_todos_with_in_date_range(start, end):
     serializer = Tododaterangeserializer(todos, many=True)
     print(serializer.data[0])
     return serializer.data
-
-
-
 # Add code to this util to return list of projects having members who have name either starting with A or ending with A
 # (case-insensitive) in specified format.
 # [{
@@ -286,9 +257,6 @@ def fetch_project_with_member_name_start_or_end_with_a():
     serializer = ProjectSerializerstartswithA(projects, many=True)
     print(serializer.data)
     return serializer.data
-    
-
-
 # Add code to this util to return project wise todos stats per user in specified format.
 # [{
 #   "project_title": "Project A"
