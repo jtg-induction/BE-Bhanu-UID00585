@@ -1,5 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import AllowAny
+
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
 
 from todos.models import Todo
 from todos.serializers import TodoCreateSerializer
