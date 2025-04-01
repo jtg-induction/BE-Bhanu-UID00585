@@ -84,6 +84,20 @@ class UserRegistrationSerializer(CustomUserserializer):
     def create(self, validated_data):
         validated_data.pop("confirm_password")
         return super().create(validated_data)
+    
+class UserLoginSerializer(serializers.Serializer):
+    email=serializers.EmailField()
+    password=serializers.CharField(write_only=True, style={"input_type": "password"})
+
+    def validate(self,data):
+        try:
+            user=CustomUser.objects.get(email=data["email"])
+            if not user.check_password(data["password"]):
+                raise serializers.ValidationError("Invalid please try again.")
+            data["user"]=user
+            return data
+        except CustomUser.DoesNotExist:
+            raise serializers.ValidationError("Custom User does not exist")
 
 
 
