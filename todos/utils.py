@@ -10,11 +10,8 @@ import users
 from users.models import CustomUser
 
 from todos.models import Todo
-
 from projects.models import Project
-
-from django.db.models import Count, Prefetch, Q, Value
-
+from django.db.models import Count,Prefetch,Q,Value
 import json
 
 from users.serializers import (

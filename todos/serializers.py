@@ -72,9 +72,3 @@ class TodoupdateSerializerlizer(serializers.ModelSerializer):
     class Meta:
         model=Todo
         fields=["todo","done","name"]
-    
-
-         
-
-
-
