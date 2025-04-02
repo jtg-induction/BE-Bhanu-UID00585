@@ -1,8 +1,5 @@
 from django.contrib.auth import authenticate,get_user_model
 from django.contrib.auth.password_validation import validate_password 
-
-
-
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from users.models import CustomUser
@@ -24,7 +21,16 @@ class UserTodoStatsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'completed_count', 'pending_count']
+        fields = [ "id",'first_name', 'last_name', 'email', 'pending_count', 'completed_count',]
+
+class UserTodoStatsSerializer_with_out_id(serializers.ModelSerializer):
+    completed_count = serializers.IntegerField()
+    
+    pending_count = serializers.IntegerField()
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email', 'pending_count', 'completed_count',]        
 
 class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
     pending_count = serializers.IntegerField()
@@ -33,13 +39,30 @@ class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'first_name', 'last_name', 'email', 'pending_count']    
 
+class CustomUserWithProjectStats(serializers.ModelSerializer):
+    """
+    User serializer which includes count of projects of different status of which the user is part of.
+    """
+   
+    to_do_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
+    in_progress_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
+    completed_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
+    
+
+    class Meta:
+        model = CustomUser
+        fields = ['first_name', 'last_name', 'email',"to_do_projects","in_progress_projects","completed_projects",]
+
+       
+
+
 
 class UserRegistrationSerializer(CustomUserserializer):
-    first_name=serializers.RegexField(
+    first_name=serializers.RegexField(required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
-    last_name=serializers.RegexField(
+    last_name=serializers.RegexField(required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )

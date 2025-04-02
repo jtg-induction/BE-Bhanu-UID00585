@@ -1,18 +1,19 @@
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
+from .serializers import UserLoginSerializer
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.password_validation import validate_password 
 from rest_framework.generics import CreateAPIView,GenericAPIView
 
 
-from users.serializers import UserLoginSerializer, UserRegistrationSerializer 
+from users.serializers import UserLoginSerializer, UserRegistrationSerializer
+
+from users import serializers 
 
 class UserRegistrationAPIView(CreateAPIView):
   serializer_class=UserRegistrationSerializer
   permission_classes=[AllowAny]
-
-
 
 class UserLoginAPIView(GenericAPIView):
     serializer_class=UserLoginSerializer
@@ -24,3 +25,4 @@ class UserLoginAPIView(GenericAPIView):
        user=serializer.validated_data["user"]
        token, _=Token.objects.get_or_create(user=user)
        return Response({"auth_token":token.key},status=status.HTTP_200_OK)
+    
