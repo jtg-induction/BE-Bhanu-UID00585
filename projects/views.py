@@ -1,5 +1,5 @@
-class ProjectMemberApiViewSet():
-    """
+
+"""
        constraints
         - a user can be a member of max 2 projects only
         - a project can have at max N members defined in database for each project

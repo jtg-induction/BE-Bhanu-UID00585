@@ -4,14 +4,15 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
 from todos.models import Todo
-from todos.serializers import TodoCreateSerializer, TodoViewSetSerializer, TodoupdateSerializerlizer
+from todos.serializers import TodoCreateSerializer, TodoViewSetSerializer, TodoUpdateSerializer
 
 
 
 class TodoAPIViewSet(ModelViewSet):
-    
-    # serializer_class = TodoViewSetSerializer
-    authentication_classes=[TokenAuthentication]
+    """
+    ViewSet for handling CRUD of Todos.
+    """
+    authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     queryset = Todo.objects.all()
 
@@ -23,7 +24,7 @@ class TodoAPIViewSet(ModelViewSet):
         if self.request.method == "PUT":
             return TodoCreateSerializer
         if self.request.method == "PATCH":
-            return TodoupdateSerializerlizer
+            return TodoUpdateSerializer
         
         
 

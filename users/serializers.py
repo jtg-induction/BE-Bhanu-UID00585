@@ -1,45 +1,55 @@
-from django.contrib.auth import authenticate,get_user_model
 from django.contrib.auth.password_validation import validate_password 
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from users.models import CustomUser
-# Add your serializers
-class CustomUserserializer(serializers.ModelSerializer):
-    class Meta:
+
+class CustomUserSerializer(serializers.ModelSerializer):
+     """
+    Serializer for interacting with users data.
+    """
+     class Meta:
         model = CustomUser
         fields = ["id", "email","first_name", "last_name"]
         read_only_fields=["id"]
-class CustomUserserializerWithoutid(serializers.ModelSerializer):
+class CustomUserSerializerWithoutID(serializers.ModelSerializer):
+    """
+    Serializer without id
+    """
     class Meta:
         model = CustomUser
         fields = [ "email","first_name", "last_name"]
 
-class UserTodoStatsSerializer(serializers.ModelSerializer):
+class CustomUserSerializerWithTodoStats(serializers.ModelSerializer):
     completed_count = serializers.IntegerField()
-    
     pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
         fields = [ "id",'first_name', 'last_name', 'email', 'pending_count', 'completed_count',]
 
-class UserTodoStatsSerializer_with_out_id(serializers.ModelSerializer):
+class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
+    """
+    CustomUserSerializer excludes ID
+    """
+
     completed_count = serializers.IntegerField()
-    
     pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'email', 'pending_count', 'completed_count',]        
 
-class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
+class TodoPendingSerializer(serializers.ModelSerializer):
+    """
+    Todo with Pending Serializer
+    """
     pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
         fields = ['id', 'first_name', 'last_name', 'email', 'pending_count']    
 
-class CustomUserWithProjectStats(serializers.ModelSerializer):
+class CustomUserWithProjectStatus(serializers.ModelSerializer):
     """
     User serializer which includes count of projects of different status of which the user is part of.
     """
@@ -48,16 +58,14 @@ class CustomUserWithProjectStats(serializers.ModelSerializer):
     in_progress_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
     completed_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
     
-
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'email',"to_do_projects","in_progress_projects","completed_projects",]
 
-       
-
-
-
-class UserRegistrationSerializer(CustomUserserializer):
+class UserRegistrationSerializer(CustomUserSerializer):
+    """
+    Serializer the data in user register Api.
+    """
     first_name=serializers.RegexField(required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
@@ -72,11 +80,11 @@ class UserRegistrationSerializer(CustomUserserializer):
     )
     token =serializers.SerializerMethodField()
 
-    class Meta(CustomUserserializer.Meta):
-        fields=CustomUserserializer.Meta.fields+[
+    class Meta(CustomUserSerializer.Meta):
+        fields=CustomUserSerializer.Meta.fields+[
             "password","confirm_password","token"
         ]
-        read_only_fields=CustomUserserializer.Meta.read_only_fields +["token"]
+        read_only_fields=CustomUserSerializer.Meta.read_only_fields +["token"]
 
     def get_token(self, user):
         try:
@@ -109,6 +117,9 @@ class UserRegistrationSerializer(CustomUserserializer):
         return super().create(validated_data)
     
 class UserLoginSerializer(serializers.Serializer):
+    """
+    Serializer for handling user login.
+    """
     email=serializers.EmailField()
     password=serializers.CharField(write_only=True, style={"input_type": "password"})
 
@@ -120,10 +131,5 @@ class UserLoginSerializer(serializers.Serializer):
             data["user"]=user
             return data
         except CustomUser.DoesNotExist:
-            raise serializers.ValidationError("Custom User does not exist")
-
-
-
-     
-
-    
+            raise serializers.ValidationError("Invalid please try again.")
+        
