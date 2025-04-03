@@ -7,7 +7,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
     """
     Serializer for the CustomUser  model.
     """
-
     class Meta:
         model = CustomUser
         fields = ["id", "email", "first_name", "last_name"]
@@ -159,6 +158,9 @@ class UserRegistrationSerializer(CustomUserSerializer):
         return super().create(validated_data)
     
 class UserLoginSerializer(serializers.Serializer):
+    """
+    Serializer for handling user login.
+    """
     email=serializers.EmailField()
     password=serializers.CharField(write_only=True, style={"input_type": "password"})
 

@@ -10,6 +10,8 @@ class ProjectSerializer(serializers.ModelSerializer):
     existing_member_count = serializers.IntegerField()
     status = serializers.SerializerMethodField()
 
+    project_name = serializers.CharField(source = "name")
+    done = serializers.SerializerMethodField()
     class Meta:
         model = Project
         fields = ["id", "name", "status", "existing_member_count", "max_members"]

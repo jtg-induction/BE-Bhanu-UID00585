@@ -344,8 +344,8 @@ def fetch_project_wise_report():
     # Write your code here
     user_queryset = (
         CustomUser.objects.annotate(
-            pending_count=Count("todo", filter=Q(todo__done=False)),
-            completed_count=Count("todo", filter=Q(todo__done=True)),
+            pending_count = Count("todo", filter = Q(todo__done = False)),
+            completed_count = Count("todo", filter = Q(todo__done = True)),
         )
         .order_by("first_name")
         .only("id", "first_name", "last_name", "email")
@@ -354,8 +354,8 @@ def fetch_project_wise_report():
         Project.objects.prefetch_related(
             Prefetch(
                 "members",
-                queryset=user_queryset,
-                to_attr="report",
+                queryset = user_queryset,
+                to_attr = "report",
             )
         )
         .order_by("name")
@@ -398,17 +398,17 @@ def fetch_user_wise_project_status():
         CustomUser.objects.prefetch_related(
             Prefetch(
                 "projects",
-                queryset=Project.objects.filter(status=0).only("name"),
-                to_attr="to_do_projects",
+                queryset = Project.objects.filter(status = 0).only("name"),
+                to_attr = "to_do_projects",
             ),
             Prefetch(
                 "projects",
-                queryset=Project.objects.filter(status=1).only("name"),
-                to_attr="in_progress_projects",
+                queryset = Project.objects.filter(status = 1).only("name"),
+                to_attr = "in_progress_projects",
             ),
             Prefetch(
                 "projects",
-                queryset=Project.objects.filter(status=2).only("name"),
+                queryset = Project.objects.filter(status = 2).only("name"),
                 to_attr="completed_projects",
             ),
         )
