@@ -6,13 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0003_project_max_members_project_members_project_name_and_more'),
+        ("projects", "0003_project_max_members_project_members_project_name_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='project',
-            name='status',
-            field=models.IntegerField(choices=[(0, 'To be started'), (1, 'In progress'), (2, 'Completed')], default=0),
+            model_name="project",
+            name="status",
+            field=models.IntegerField(
+                choices=[(0, "To be started"), (1, "In progress"), (2, "Completed")],
+                default=0,
+            ),
         ),
     ]

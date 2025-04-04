@@ -1,23 +1,29 @@
-from django.contrib.auth.password_validation import validate_password 
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from users.models import CustomUser
 
+
 class CustomUserSerializer(serializers.ModelSerializer):
-     """
+    """
     Serializer for interacting with users data.
     """
-     class Meta:
+
+    class Meta:
         model = CustomUser
-        fields = ["id", "email","first_name", "last_name"]
-        read_only_fields=["id"]
+        fields = ["id", "email", "first_name", "last_name"]
+        read_only_fields = ["id"]
+
+
 class CustomUserSerializerWithoutID(serializers.ModelSerializer):
     """
     Serializer without id
     """
+
     class Meta:
         model = CustomUser
-        fields = [ "email","first_name", "last_name"]
+        fields = ["email", "first_name", "last_name"]
+
 
 class CustomUserSerializerWithTodoStats(serializers.ModelSerializer):
     completed_count = serializers.IntegerField()
@@ -25,7 +31,15 @@ class CustomUserSerializerWithTodoStats(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = [ "id",'first_name', 'last_name', 'email', 'pending_count', 'completed_count',]
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "pending_count",
+            "completed_count",
+        ]
+
 
 class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
     """
@@ -37,54 +51,82 @@ class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email', 'pending_count', 'completed_count',]        
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "pending_count",
+            "completed_count",
+        ]
+
 
 class TodoPendingSerializer(serializers.ModelSerializer):
     """
     Todo with Pending Serializer
     """
+
     pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'pending_count']    
+        fields = ["id", "first_name", "last_name", "email", "pending_count"]
+
 
 class CustomUserWithProjectStatus(serializers.ModelSerializer):
     """
     User serializer which includes count of projects of different status of which the user is part of.
     """
-   
-    to_do_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
-    in_progress_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
-    completed_projects = serializers.ListField(child=serializers.CharField(), read_only=True)
-    
+
+    to_do_projects = serializers.ListField(
+        child=serializers.CharField(), read_only=True
+    )
+    in_progress_projects = serializers.ListField(
+        child=serializers.CharField(), read_only=True
+    )
+    completed_projects = serializers.ListField(
+        child=serializers.CharField(), read_only=True
+    )
+
     class Meta:
         model = CustomUser
-        fields = ['first_name', 'last_name', 'email',"to_do_projects","in_progress_projects","completed_projects",]
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "to_do_projects",
+            "in_progress_projects",
+            "completed_projects",
+        ]
+
 
 class UserRegistrationSerializer(CustomUserSerializer):
     """
     Serializer the data in user register Api.
     """
-    first_name=serializers.RegexField(required=False,
+
+    first_name = serializers.RegexField(
+        required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
-    last_name=serializers.RegexField(required=False,
+    last_name = serializers.RegexField(
+        required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
-    password=serializers.CharField(write_only=True, style={"input_type": "password"})
-    confirm_password=serializers.CharField(
+    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+    confirm_password = serializers.CharField(
         write_only=True, style={"input_type": "password"}
     )
-    token =serializers.SerializerMethodField()
+    token = serializers.SerializerMethodField()
 
     class Meta(CustomUserSerializer.Meta):
-        fields=CustomUserSerializer.Meta.fields+[
-            "password","confirm_password","token"
+        fields = CustomUserSerializer.Meta.fields + [
+            "password",
+            "confirm_password",
+            "token",
         ]
-        read_only_fields=CustomUserSerializer.Meta.read_only_fields +["token"]
+        read_only_fields = CustomUserSerializer.Meta.read_only_fields + ["token"]
 
     def get_token(self, user):
         try:
@@ -115,21 +157,22 @@ class UserRegistrationSerializer(CustomUserSerializer):
     def create(self, validated_data):
         validated_data.pop("confirm_password")
         return super().create(validated_data)
-    
+
+
 class UserLoginSerializer(serializers.Serializer):
     """
     Serializer for handling user login.
     """
-    email=serializers.EmailField()
-    password=serializers.CharField(write_only=True, style={"input_type": "password"})
 
-    def validate(self,data):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+
+    def validate(self, data):
         try:
-            user=CustomUser.objects.get(email=data["email"])
+            user = CustomUser.objects.get(email=data["email"])
             if not user.check_password(data["password"]):
                 raise serializers.ValidationError("Invalid please try again.")
-            data["user"]=user
+            data["user"] = user
             return data
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("Invalid please try again.")
-        

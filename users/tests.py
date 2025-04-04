@@ -2,8 +2,6 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 
@@ -17,7 +15,7 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         user_data = {
             "email": "test@testuser.com",
             "password": "password",
-            "confirm_password": "INVALID_PASSWORD"
+            "confirm_password": "INVALID_PASSWORD",
         }
         response = self.client.post(self.url, user_data)
         self.assertEqual(400, response.status_code)
@@ -29,7 +27,7 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         user_data = {
             "email": "test@testuser.com",
             "password": "StrongPassword123!",
-            "confirm_password": "StrongPassword123!"
+            "confirm_password": "StrongPassword123!",
         }
         response = self.client.post(self.url, user_data)
         self.assertEqual(response.status_code, 201)
@@ -42,7 +40,7 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         user_data_1 = {
             "email": "test@testuser.com",
             "password": "StrongPassword123!",
-            "confirm_password": "StrongPassword123!"
+            "confirm_password": "StrongPassword123!",
         }
         response = self.client.post(self.url, user_data_1)
         self.assertEqual(201, response.status_code)
@@ -50,7 +48,7 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         user_data_2 = {
             "email": "test@testuser.com",
             "password": "123123",
-            "confirm_password": "123123"
+            "confirm_password": "123123",
         }
         response = self.client.post(self.url, user_data_2)
         self.assertEqual(400, response.status_code)
@@ -62,18 +60,22 @@ class UserLoginAPIViewTestCase(APITestCase):
     def setUp(self):
         self.email = "john@snow.com"
         self.password = "you_know_nothing"
-        self.user = get_user_model().objects.create_user(self.email, self.password)
+        self.user = get_user_model().objects.create_user(self.email, self.
+                                                         password)
 
     def test_authentication_without_password(self):
         response = self.client.post(self.url, {"email": self.email})
         self.assertEqual(400, response.status_code)
 
     def test_authentication_with_wrong_password(self):
-        response = self.client.post(self.url, {"email": self.email, "password": "I_know"})
+        response = self.client.post(
+            self.url, {"email": self.email, "password": "I_know"}
+        )
         self.assertEqual(400, response.status_code)
 
     def test_authentication_with_valid_data(self):
-        response = self.client.post(self.url, {"email": self.email, "password": self.password})
+        response = self.client.post(
+            self.url, {"email": self.email, "password": self.password}
+        )
         self.assertEqual(200, response.status_code)
         self.assertTrue("auth_token" in json.loads(response.content))
-
