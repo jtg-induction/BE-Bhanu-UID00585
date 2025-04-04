@@ -5,26 +5,7 @@ from todos.models import Todo
 from todos.serializers import TodoCreateSerializer, TodoupdateSerializerlizer
 
 
-
 class TodoAPIViewSet(ModelViewSet):
-    """
-    success response for create/update/get
-    {
-      "name": "",
-      "done": true/false,
-      "date_created": ""
-    }
-
-    success response for list
-    [
-      {
-        "name": "",
-        "done": true/false,
-        "date_created": ""
-      }
-    ]
-    """
-
     serializer_class = TodoCreateSerializer
     permission_classes = [AllowAny]
     queryset = Todo.objects.all()
@@ -38,10 +19,3 @@ class TodoAPIViewSet(ModelViewSet):
             return TodoCreateSerializer
         if self.request.method == "PATCH":
             return TodoupdateSerializerlizer
-        
-        
-
-
-
-
-

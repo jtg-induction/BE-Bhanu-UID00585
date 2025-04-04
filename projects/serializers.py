@@ -13,16 +13,6 @@ class Projectserializers(serializers.ModelSerializer):
         fields = ["id", "name", "status", "existing_member_count", "max_members"]
 
     def get_status(self, obj):
-        # if obj.done:
-        #     return "Done"
-        # else:
-        #     return "To Do"
-
-        # if (obj.status==0|1):
-        #     return("To Do")
-        # else:
-        #     return("Done")
-
         return obj.get_status_display()
 
 
@@ -38,9 +28,7 @@ class ProjectSerializerstartswithA(serializers.ModelSerializer):
         if obj.status == 2:
             return True
         else:
-            return False 
-        
-          
+            return False
 
 
 class ProjectReportSerializer(Projectserializers):
