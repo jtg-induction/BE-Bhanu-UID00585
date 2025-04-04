@@ -33,9 +33,7 @@ class ProjectSerializertartswithA(serializers.ModelSerializer):
         if obj.status == 2:
             return True
         else:
-            return False 
-        
-          
+            return False
 
 class ProjectReportSerializer(ProjectSerializer):
     """
