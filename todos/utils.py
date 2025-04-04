@@ -5,19 +5,16 @@ from projects.serializers import (
     ProjectSerializerstartswithA,
     ProjectSerializer,
 )
-from todos.serializers import TodoDateRangeSerializer, TodoSerializer
-import users
+from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer
 from users.models import CustomUser
 
 from todos.models import Todo
 from projects.models import Project
-from django.db.models import Count,Prefetch,Q,Value
+from django.db.models import Count, Prefetch, Q, Value
 import json
-
 from users.serializers import (
-    CustomUserWithProjectStatus,
     CustomUserSerializer,
-    TodoPendingSerializer,
+    CustomUserWithProjectStatus,
     UserTodoSerializer,
 )
 
