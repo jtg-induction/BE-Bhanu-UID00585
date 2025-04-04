@@ -7,6 +7,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     """
     Serializer for the CustomUser  model.
     """
+
     class Meta:
         model = CustomUser
         fields = ["id", "email", "first_name", "last_name"]
@@ -156,29 +157,11 @@ class UserRegistrationSerializer(CustomUserSerializer):
     def create(self, validated_data):
         validated_data.pop("confirm_password")
         return super().create(validated_data)
-    
+
+
 class UserLoginSerializer(serializers.Serializer):
     """
     Serializer for handling user login.
-    """
-    email=serializers.EmailField()
-    password=serializers.CharField(write_only=True, style={"input_type": "password"})
-
-    def validate(self,data):
-        try:
-            user=CustomUser.objects.get(email=data["email"])
-            if not user.check_password(data["password"]):
-                raise serializers.ValidationError("Invalid please try again.")
-            data["user"]=user
-            return data
-        except CustomUser.DoesNotExist:
-            raise serializers.ValidationError("Custom User does not exist")
-
-class UserLoginSerializer(serializers.Serializer):
-    """
-    Serializer for user login.
-
-    This serializer handles the validation of user credentials during login.
     """
 
     email = serializers.EmailField()
@@ -188,9 +171,8 @@ class UserLoginSerializer(serializers.Serializer):
         try:
             user = CustomUser.objects.get(email=data["email"])
             if not user.check_password(data["password"]):
-                raise serializers.ValidationError("Invalid credentials, please try again.")
+                raise serializers.ValidationError("Invalid please try again.")
             data["user"] = user
             return data
         except CustomUser.DoesNotExist:
-            raise serializers.ValidationError("User does not exist.")
-        
+            raise serializers.ValidationError("Invalid please try again.")

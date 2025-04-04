@@ -163,7 +163,8 @@ def fetch_users_todo_stats():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this function for test cases to pass.
+# use json.load(json.dumps(serializer.data)) while returning data from this 
+# function for test cases to pass.
 def fetch_five_users_with_max_pending_todos():
     """
     Util to fetch top five user with maximum number of pending todos
@@ -194,7 +195,8 @@ def fetch_five_users_with_max_pending_todos():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this function for test cases to pass.
+# use json.load(json.dumps(serializer.data)) while returning data from this 
+# function for test cases to pass.
 # Hint : use annotation and aggregations
 def fetch_users_with_n_pending_todos(n):
     """
@@ -231,10 +233,12 @@ def fetch_users_with_n_pending_todos(n):
 #   "created_at": "5:30 PM, 02 Feb, 2021"
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this function for test cases to pass.
+# use json.load(json.dumps(serializer.data)) while returning data from this
+#  function for test cases to pass.
 def fetch_completed_todos_with_in_date_range(start, end):
     """
-    Util to fetch todos that were created in between given dates and marked as done.
+    Util to fetch todos that were created 
+    in between given dates and marked as done.
     :param start: string - Start date e.g. (12-01-2021)
     :param end: string - End date e.g. (12-02-2021)
     :return: list of dicts - List of todos
@@ -344,8 +348,8 @@ def fetch_project_wise_report():
     # Write your code here
     user_queryset = (
         CustomUser.objects.annotate(
-            pending_count = Count("todo", filter = Q(todo__done = False)),
-            completed_count = Count("todo", filter = Q(todo__done = True)),
+            pending_count=Count("todo", filter=Q(todo__done=False)),
+            completed_count=Count("todo", filter=Q(todo__done=True)),
         )
         .order_by("first_name")
         .only("id", "first_name", "last_name", "email")
@@ -354,8 +358,8 @@ def fetch_project_wise_report():
         Project.objects.prefetch_related(
             Prefetch(
                 "members",
-                queryset = user_queryset,
-                to_attr = "report",
+                queryset=user_queryset,
+                to_attr="report",
             )
         )
         .order_by("name")
@@ -398,17 +402,17 @@ def fetch_user_wise_project_status():
         CustomUser.objects.prefetch_related(
             Prefetch(
                 "projects",
-                queryset = Project.objects.filter(status = 0).only("name"),
-                to_attr = "to_do_projects",
+                queryset=Project.objects.filter(status=0).only("name"),
+                to_attr="to_do_projects",
             ),
             Prefetch(
                 "projects",
-                queryset = Project.objects.filter(status = 1).only("name"),
-                to_attr = "in_progress_projects",
+                queryset=Project.objects.filter(status=1).only("name"),
+                to_attr="in_progress_projects",
             ),
             Prefetch(
                 "projects",
-                queryset = Project.objects.filter(status = 2).only("name"),
+                queryset=Project.objects.filter(status=2).only("name"),
                 to_attr="completed_projects",
             ),
         )

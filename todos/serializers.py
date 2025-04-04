@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
-from users.models import CustomUser
-from users.serializers import  CustomUserSerializerWithoutID
+from users.serializers import CustomUserSerializerWithoutID
 from .models import Todo
 from users.serializers import CustomUserSerializerWithoutid
+
 
 class TodoSerializer(serializers.ModelSerializer):
     """

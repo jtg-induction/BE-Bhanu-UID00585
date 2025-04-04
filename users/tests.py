@@ -2,8 +2,6 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-
-from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 
@@ -62,7 +60,8 @@ class UserLoginAPIViewTestCase(APITestCase):
     def setUp(self):
         self.email = "john@snow.com"
         self.password = "you_know_nothing"
-        self.user = get_user_model().objects.create_user(self.email, self.password)
+        self.user = get_user_model().objects.create_user(self.email, self.
+                                                         password)
 
     def test_authentication_without_password(self):
         response = self.client.post(self.url, {"email": self.email})

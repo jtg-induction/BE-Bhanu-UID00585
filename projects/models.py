@@ -18,6 +18,7 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
+
 class ProjectMember(models.Model):
     """
     Represents the association between a project and its members.

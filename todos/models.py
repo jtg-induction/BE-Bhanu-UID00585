@@ -1,6 +1,7 @@
 from users.models import CustomUser
 from django.db import models
 
+
 class Todo(models.Model):
     """
     Represents a to-do item associated with a user.
