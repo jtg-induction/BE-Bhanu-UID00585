@@ -4,19 +4,21 @@ from rest_framework import serializers
 
 from users.models import CustomUser
 from .models import Todo
-from users.serializers import  CustomUserserializerWithoutid
+from users.serializers import CustomUserserializerWithoutid
+
 
 class Todoserializer(serializers.ModelSerializer):
-    
-   
+
     status = serializers.SerializerMethodField()
     # created_at=serializers.SerializerMethodField()
-    created_at = serializers.DateTimeField(source="date_created", format="%I:%M %p, %d %b, %Y")
-    creator = CustomUserserializerWithoutid(source='user', read_only=True)
-    
+    created_at = serializers.DateTimeField(
+        source="date_created", format="%I:%M %p, %d %b, %Y"
+    )
+    creator = CustomUserserializerWithoutid(source="user", read_only=True)
+
     class Meta:
-        model=Todo
-        fields=["id","name","status","created_at","creator"]
+        model = Todo
+        fields = ["id", "name", "status", "created_at", "creator"]
 
     def get_status(self, obj):
         if obj.done:
@@ -24,9 +26,10 @@ class Todoserializer(serializers.ModelSerializer):
         else:
             return "To Do"
 
-
     # def get_created_at(self, obj):
-    #     return obj.date_created.strftime("%I:%M %p, %d %b, %Y")    
+    #     return obj.date_created.strftime("%I:%M %p, %d %b, %Y")
+
+
 # Add your serializer(s) here
 
 
@@ -35,22 +38,20 @@ class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'first_name', 'last_name', 'email', 'pending_count']
+        fields = ["id", "first_name", "last_name", "email", "pending_count"]
 
 
 class Tododaterangeserializer(serializers.ModelSerializer):
-    created_at = serializers.DateTimeField(source="date_created", format="%I:%M %p, %d %b, %Y")  
-    creator = serializers.CharField() 
-    email = serializers.EmailField(source="user.email") 
+    created_at = serializers.DateTimeField(
+        source="date_created", format="%I:%M %p, %d %b, %Y"
+    )
+    creator = serializers.CharField()
+    email = serializers.EmailField(source="user.email")
     status = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = Todo
-        fields = ['id', 'creator', 'email', 'name', 'status', 'created_at'] 
+        fields = ["id", "creator", "email", "name", "status", "created_at"]
 
     def get_status(self, obj):
         return "Done" if obj.done else "Pending"
-         
-
-
-
