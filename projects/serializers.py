@@ -9,6 +9,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     """
 
     existing_member_count = serializers.IntegerField()
+
     status = serializers.SerializerMethodField()
 
     class Meta:
@@ -19,11 +20,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         return obj.get_status_display()
 
 
+
 class ProjectSerializerStartsWithA(serializers.ModelSerializer):
     """
     serilaizer for project where the name start with A or ends with A
     """
-
     project_name = serializers.CharField(source="name")
     done = serializers.SerializerMethodField()
 
@@ -38,6 +39,25 @@ class ProjectSerializerStartsWithA(serializers.ModelSerializer):
             return False
 
 
+class ProjectReportSerializer(Projectserializers):
+    """
+    Serilaizer for Project model which  includes specials fields.
+    """
+
+    status = serializers.SerializerMethodField()
+    existing_member_count = serializers.IntegerField()
+    report = CustomUserSerializerTodoWithoutID(many=True)
+
+    class Meta:
+        read_only_fields = [
+            "report",
+            "existing_member_count",
+        ]
+
+    def get_status(self, obj):
+        return obj.get_status_display()
+
+
 class ProjectReportSerializer(serializers.ModelSerializer):
     """
     Serializer that displays additional 'report' field.
@@ -45,7 +65,6 @@ class ProjectReportSerializer(serializers.ModelSerializer):
 
     report = CustomUserSerializerTodoWithoutID(many=True)
     project_title = serializers.CharField(source="name")
-
     class Meta:
         model = Project
         fields = ["project_title", "report"]

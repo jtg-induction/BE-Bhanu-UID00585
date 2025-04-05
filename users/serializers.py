@@ -1,8 +1,9 @@
-from django.contrib.auth.password_validation import validate_password
+
+from django.contrib.auth import authenticate,get_user_model
+from django.contrib.auth.password_validation import validate_password 
 from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from users.models import CustomUser
-
 
 class CustomUserSerializer(serializers.ModelSerializer):
     """
@@ -19,7 +20,6 @@ class CustomUserSerializerWithoutID(serializers.ModelSerializer):
     """
     Serializer without id
     """
-
     class Meta:
         model = CustomUser
         fields = ["email", "first_name", "last_name"]
@@ -40,6 +40,24 @@ class CustomUserSerializerWithTodoStats(serializers.ModelSerializer):
             "completed_count",
         ]
 
+
+class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
+    """
+    CustomUserSerializer excludes ID
+    """
+
+    completed_count = serializers.IntegerField()
+    pending_count = serializers.IntegerField()
+
+    class Meta:
+        model = CustomUser
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "pending_count",
+            "completed_count",
+        ]
 
 class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
     """
@@ -176,3 +194,32 @@ class UserLoginSerializer(serializers.Serializer):
             return data
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("Invalid please try again.")
+
+
+
+class CustomUserWithProjectStatus(serializers.ModelSerializer):
+    """
+    User serializer which includes count of projects of different status of which the user is part of.
+    """
+
+    to_do_projects = serializers.ListField(
+        child=serializers.CharField(), read_only=True
+    )
+    in_progress_projects = serializers.ListField(
+        child=serializers.CharField(), read_only=True
+    )
+    completed_projects = serializers.ListField(
+        child=serializers.CharField(), read_only=True
+    )
+
+    class Meta:
+        model = CustomUser
+        fields = [
+            "first_name",
+            "last_name",
+            "email",
+            "to_do_projects",
+            "in_progress_projects",
+            "completed_projects",
+        ]
+

@@ -1,12 +1,12 @@
-from django.db import models
 from users.models import CustomUser
 
+from django.db import models
+from users.models import CustomUser
 
 class Todo(models.Model):
     """
     model that represent Todo
     """
-
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=1000)
     done = models.BooleanField(default=False)

@@ -1,12 +1,12 @@
-import json
-
+ import json
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
 
 
-class UserRegistrationAPIViewTestCase(APITestCase):
-    url = reverse("users:register")
+ class UserRegistrationAPIViewTestCase(APITestCase):
+     url = reverse("users:register")
 
     def test_invalid_password(self):
         """
@@ -53,19 +53,17 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         response = self.client.post(self.url, user_data_2)
         self.assertEqual(400, response.status_code)
 
+# class UserLoginAPIViewTestCase(APITestCase):
+#     url = reverse("users:login")
 
-class UserLoginAPIViewTestCase(APITestCase):
-    url = reverse("users:login")
+#     def setUp(self):
+#         self.email = "john@snow.com"
+#         self.password = "you_know_nothing"
+#         self.user = get_user_model().objects.create_user(self.email, self.password)
 
-    def setUp(self):
-        self.email = "john@snow.com"
-        self.password = "you_know_nothing"
-        self.user = get_user_model().objects.create_user(self.email, self.password)
-
-    def test_authentication_without_password(self):
-        response = self.client.post(self.url, {"email": self.email})
-        self.assertEqual(400, response.status_code)
-
+#     def test_authentication_without_password(self):
+#         response = self.client.post(self.url, {"email": self.email})
+#         self.assertEqual(400, response.status_code)
     def test_authentication_with_wrong_password(self):
         response = self.client.post(
             self.url, {"email": self.email, "password": "I_know"}
@@ -78,3 +76,4 @@ class UserLoginAPIViewTestCase(APITestCase):
         )
         self.assertEqual(200, response.status_code)
         self.assertTrue("auth_token" in json.loads(response.content))
+

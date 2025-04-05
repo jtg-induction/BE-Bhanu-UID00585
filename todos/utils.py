@@ -87,7 +87,6 @@ def fetch_all_todo_list_with_user_details():
     serializer = TodoSerializer(todos, many=True)
     return serializer.data
 
-
 # Add code to this util to return all projects with following details in specified format.
 # [{
 #   "id": 1,
@@ -117,8 +116,6 @@ def fetch_projects_details():
     )
     serializer = ProjectSerializer(projects, many=True)
     return serializer.data
-
-
 # Add code to this util to  return stats (done & to do count) of all users in specified format.
 # [{
 #   "id": 1,
@@ -153,6 +150,7 @@ def fetch_users_todo_stats():
 
 # Add code to this util to return top five users with maximum number of
 # pending todos in specified format.
+# Add code to this util to return top five users with maximum number of pending todos in specified format.
 # [{
 #   "id": 1,
 #   "first_name": "Nikhil",
@@ -186,6 +184,7 @@ def fetch_five_users_with_max_pending_todos():
 
 # Add code to this util to return users with given number of pending todos in
 # specified format.
+# Add code to this util to return users with given number of pending todos in specified format
 # e.g where n=4
 # [{
 #   "id": 1,
@@ -217,12 +216,14 @@ def fetch_users_with_n_pending_todos(n):
         .order_by("pending_count")
         .only("id", "first_name", "last_name", "email")
     )
+
     serializer = TodoPendingSerializer(users, many=True)
     return serializer.data
 
 
 # Add code to this util to return todos that were created in between given
 # dates (add proper order too) and marked as
+# Add code to this util to return todos that were created in between given dates (add proper order too) and marked as
 # done in specified format.
 #  e.g. for given range - from 12-01-2021 to 12-02-2021
 # [{
@@ -273,10 +274,9 @@ def fetch_completed_todos_with_in_date_range(start, end):
             "date_created",
         )
     )
+
     serializer = TodoDateSerializer(todos, many=True)
     return serializer.data
-
-
 # Add code to this util to return list of projects having members who have name either starting with A or ending with A
 # (case-insensitive) in specified format.
 # [{
@@ -306,9 +306,9 @@ def fetch_project_with_member_name_start_or_end_with_a():
         .only("name", "status", "max_members")
         .order_by("id")
     )
+
     serializer = ProjectSerializerStartsWithA(projects, many=True)
     return serializer.data
-
 
 # Add code to this util to return project wise todos stats per user in specified format.
 # [{
@@ -376,7 +376,6 @@ def fetch_project_wise_report():
         .only("name", "members")
     )
     return ProjectReportSerializer(projects, many=True).data
-
     pass
 
 
