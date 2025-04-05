@@ -1,8 +1,5 @@
 from rest_framework import serializers
-from django.db import transaction
-from django.db.models import Count
-from projects.models import Project, ProjectMember
-from users.models import CustomUser
+from projects.models import Project
 from users.serializers import CustomUserSerializerTodoWithoutID
 
 
@@ -41,26 +38,7 @@ class ProjectSerializerStartsWithA(serializers.ModelSerializer):
             return False
 
 
-class ProjectReportSerializer(ProjectSerializer):
-    """
-    Serilaizer for Project model which  includes specials fields.
-    """
-
-    status = serializers.SerializerMethodField()
-    existing_member_count = serializers.IntegerField()
-    report = CustomUserSerializerTodoWithoutID(many=True)
-
-    class Meta:
-        read_only_fields = [
-            "report",
-            "existing_member_count",
-        ]
-
-    def get_status(self, obj):
-        return obj.get_status_display()
-
-
-class  ProjectReportSerializer(serializers.ModelSerializer):
+class ProjectReportSerializer(serializers.ModelSerializer):
     """
     Serializer that displays additional 'report' field.
     """
@@ -71,15 +49,3 @@ class  ProjectReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ["project_title", "report"]
-
-
-class ProjectUpdateMemberSerializer(serializers.ModelSerializer):
-    """
-    Serializer that handles adding and removing users from a project.
-    """
-
-    user_ids = serializers.ListField(
-        child=serializers.IntegerField(),
-        write_only=True,
-        required=True,
-    )

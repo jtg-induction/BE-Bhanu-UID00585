@@ -151,7 +151,7 @@ def fetch_users_todo_stats():
     return serializer.data
 
 
-# Add code to this util to return top five users with maximum number of 
+# Add code to this util to return top five users with maximum number of
 # pending todos in specified format.
 # [{
 #   "id": 1,
@@ -168,7 +168,7 @@ def fetch_users_todo_stats():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this 
+# use json.load(json.dumps(serializer.data)) while returning data from this
 # function for test cases to pass.
 def fetch_five_users_with_max_pending_todos():
     """
@@ -176,8 +176,7 @@ def fetch_five_users_with_max_pending_todos():
     :return: list of dicts -  List of users
     """
     users = (
-        CustomUser.objects.annotate(pending_count=Count
-                                    ("todo", Q(todo__done=False)))
+        CustomUser.objects.annotate(pending_count=Count("todo", Q(todo__done=False)))
         .order_by("-pending_count")
         .only("id", "first_name", "last_name", "email")[:5]
     )
@@ -185,7 +184,7 @@ def fetch_five_users_with_max_pending_todos():
     return serializer.data
 
 
-# Add code to this util to return users with given number of pending todos in 
+# Add code to this util to return users with given number of pending todos in
 # specified format.
 # e.g where n=4
 # [{
@@ -203,7 +202,7 @@ def fetch_five_users_with_max_pending_todos():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this 
+# use json.load(json.dumps(serializer.data)) while returning data from this
 # function for test cases to pass.
 # Hint : use annotation and aggregations
 def fetch_users_with_n_pending_todos(n):
@@ -213,8 +212,7 @@ def fetch_users_with_n_pending_todos(n):
     :return: list of dicts -  List of users
     """
     users = (
-        CustomUser.objects.annotate(pending_count=Count
-                                    ("todo", Q(todo__done=False)))
+        CustomUser.objects.annotate(pending_count=Count("todo", Q(todo__done=False)))
         .filter(pending_count=n)
         .order_by("pending_count")
         .only("id", "first_name", "last_name", "email")
@@ -223,7 +221,7 @@ def fetch_users_with_n_pending_todos(n):
     return serializer.data
 
 
-# Add code to this util to return todos that were created in between given 
+# Add code to this util to return todos that were created in between given
 # dates (add proper order too) and marked as
 # done in specified format.
 #  e.g. for given range - from 12-01-2021 to 12-02-2021
@@ -248,7 +246,7 @@ def fetch_users_with_n_pending_todos(n):
 #  function for test cases to pass.
 def fetch_completed_todos_with_in_date_range(start, end):
     """
-    Util to fetch todos that were created 
+    Util to fetch todos that were created
     in between given dates and marked as done.
     :param start: string - Start date e.g. (12-01-2021)
     :param end: string - End date e.g. (12-02-2021)
@@ -259,8 +257,7 @@ def fetch_completed_todos_with_in_date_range(start, end):
     end_date = datetime.strptime(end, "%d-%m-%Y")
     todos = (
         Todo.objects.select_related("user")
-        .annotate(creator=Concat
-                  ("user__first_name", Value(" "), "user__last_name"))
+        .annotate(creator=Concat("user__first_name", Value(" "), "user__last_name"))
         .filter(
             Q(date_created__date__gt=start_date)
             & Q(date_created__date__lt=end_date)
