@@ -163,7 +163,7 @@ def fetch_users_todo_stats():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this 
+# use json.load(json.dumps(serializer.data)) while returning data from this
 # function for test cases to pass.
 def fetch_five_users_with_max_pending_todos():
     """
@@ -195,7 +195,7 @@ def fetch_five_users_with_max_pending_todos():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this 
+# use json.load(json.dumps(serializer.data)) while returning data from this
 # function for test cases to pass.
 # Hint : use annotation and aggregations
 def fetch_users_with_n_pending_todos(n):
@@ -237,7 +237,7 @@ def fetch_users_with_n_pending_todos(n):
 #  function for test cases to pass.
 def fetch_completed_todos_with_in_date_range(start, end):
     """
-    Util to fetch todos that were created 
+    Util to fetch todos that were created
     in between given dates and marked as done.
     :param start: string - Start date e.g. (12-01-2021)
     :param end: string - End date e.g. (12-02-2021)
