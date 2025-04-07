@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from projects.models import Project
+from projects.models import Project, ProjectMember
 from users.serializers import CustomUserSerializerTodoWithoutID
 
 
@@ -49,3 +49,19 @@ class ProjectReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = Project
         fields = ["project_title", "report"]
+
+
+class ProjectUpdateMemberSerializer(serializers.ModelSerializer):
+    """
+    Serializer that handles adding and removing users from a project.
+    """
+
+    user_ids = serializers.ListField(
+        child=serializers.IntegerField(),
+        write_only=True,
+        required=True,
+    )
+
+    class Meta:
+        model = ProjectMember
+        fields = ["user_ids"]
