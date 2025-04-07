@@ -7,6 +7,10 @@ from django.db import models
 
 
 class UserManager(BaseUserManager):
+    """
+    create a user model
+    """
+
     def create_user(self, email, password, **extra_fields):
         if not email:
             raise ValueError("Users must have an email address")
@@ -28,6 +32,10 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+    """
+    create a customuser model
+    """
+
     is_superuser = models.BooleanField(default=False)
     first_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)

@@ -4,6 +4,10 @@ from django.db import models
 
 
 class Todo(models.Model):
+    """
+    create todo model
+    """
+
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     name = models.CharField(max_length=1000)
     done = models.BooleanField(default=False)

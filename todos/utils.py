@@ -47,8 +47,7 @@ def fetch_all_users():
     :return: list of dicts - List of users data
     """
     users = CustomUser.objects.only("id", "first_name", "last_name", "email")
-    serializer = CustomUserserializer(users, many=True)
-    return serializer.data
+    return CustomUserserializer(users, many=True).data
 
 
 # Add code to this util to  return all todos list (done/to do) along with user details in specified format.
@@ -90,8 +89,7 @@ def fetch_all_todo_list_with_user_details():
         "user__last_name",
         "user__email",
     )
-    serializer = Todoserializer(todos, many=True)
-    return serializer.data
+    return Todoserializer(todos, many=True).data
 
 
 # Add code to this util to return all projects with following details in specified format.
@@ -121,8 +119,7 @@ def fetch_projects_details():
         .defer("members")
         .all()
     )
-    serializer = Projectserializers(projects, many=True)
-    return serializer.data
+    return Projectserializers(projects, many=True).data
 
 
 # Add code to this util to  return stats (done & to do count) of all users in specified format.
@@ -153,8 +150,7 @@ def fetch_users_todo_stats():
         completed_count=Count("todo", filter=Q(todo__done=True)),
         pending_count=Count("todo", filter=Q(todo__done=False)),
     ).only("id", "first_name", "last_name", "email")
-    serializer = UserTodoStatsSerializer(users, many=True)
-    return serializer.data
+    return UserTodoStatsSerializer(users, many=True).data
 
 
 # Add code to this util to return top five users with maximum number of pending todos in specified format.
@@ -184,8 +180,7 @@ def fetch_five_users_with_max_pending_todos():
         .order_by("-pending_count")
         .only("id", "first_name", "last_name", "email")[:5]
     )
-    serializer = UserPendingTodoStatsSerializer(users, many=True)
-    return serializer.data
+    return UserPendingTodoStatsSerializer(users, many=True).data
 
 
 # Add code to this util to return users with given number of pending todos in specified format.
@@ -219,8 +214,7 @@ def fetch_users_with_n_pending_todos(n):
         .order_by("pending_count")
         .only("id", "first_name", "last_name", "email")
     )
-    serializer = UserPendingTodoStatsSerializer(users, many=True)
-    return serializer.data
+    return UserPendingTodoStatsSerializer(users, many=True).data
 
 
 # Add code to this util to return todos that were created in between given dates (add proper order too) and marked as
@@ -272,8 +266,8 @@ def fetch_completed_todos_with_in_date_range(start, end):
             "date_created",
         )
     )
-    serializer = Tododaterangeserializer(todos, many=True)
-    return serializer.data
+
+    return Tododaterangeserializer(todos, many=True).data
 
 
 # Add code to this util to return list of projects having members who have name either starting with A or ending with A
@@ -305,8 +299,7 @@ def fetch_project_with_member_name_start_or_end_with_a():
         .only("name", "status", "max_members")
         .order_by("id")
     )
-    serializer = ProjectSerializerstartswithA(projects, many=True)
-    return serializer.data
+    return ProjectSerializerstartswithA(projects, many=True).data
 
 
 # Add code to this util to return project wise todos stats per user in specified format.

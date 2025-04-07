@@ -7,10 +7,10 @@ from rest_framework.authtoken.models import Token
 from users.models import CustomUser
 
 
-# Add your serializers
-
-
 class CustomUserserializer(serializers.ModelSerializer):
+    """
+    creating a customuser serializer
+    """
 
     class Meta:
         model = CustomUser
@@ -18,12 +18,20 @@ class CustomUserserializer(serializers.ModelSerializer):
 
 
 class CustomUserserializerWithoutid(serializers.ModelSerializer):
+    """
+    creating a serializer without ID
+    """
+
     class Meta:
         model = CustomUser
         fields = ["email", "first_name", "last_name"]
 
 
 class UserTodoStatsSerializer(serializers.ModelSerializer):
+    """
+    create a serializer which show the pending and completed count
+    """
+
     completed_count = serializers.IntegerField()
 
     pending_count = serializers.IntegerField()

@@ -8,9 +8,11 @@ from users.serializers import CustomUserserializerWithoutid
 
 
 class Todoserializer(serializers.ModelSerializer):
+    """
+    creating a Todoserializer
+    """
 
     status = serializers.SerializerMethodField()
-    # created_at=serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(
         source="date_created", format="%I:%M %p, %d %b, %Y"
     )
@@ -26,14 +28,12 @@ class Todoserializer(serializers.ModelSerializer):
         else:
             return "To Do"
 
-    # def get_created_at(self, obj):
-    #     return obj.date_created.strftime("%I:%M %p, %d %b, %Y")
-
-
-# Add your serializer(s) here
-
 
 class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
+    """
+    create a serializer for for pending count
+    """
+
     pending_count = serializers.IntegerField()
 
     class Meta:
@@ -42,6 +42,10 @@ class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
 
 
 class Tododaterangeserializer(serializers.ModelSerializer):
+    """
+    create a serializers having the start and ending date
+    """
+
     created_at = serializers.DateTimeField(
         source="date_created", format="%I:%M %p, %d %b, %Y"
     )

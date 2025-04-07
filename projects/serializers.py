@@ -4,6 +4,10 @@ from users.serializers import CustomUserSerializerTodoWithoutID
 
 
 class Projectserializers(serializers.ModelSerializer):
+    """
+    create a Projectserializer for maximum member
+    """
+
     existing_member_count = serializers.IntegerField()
 
     status = serializers.SerializerMethodField()
@@ -13,20 +17,14 @@ class Projectserializers(serializers.ModelSerializer):
         fields = ["id", "name", "status", "existing_member_count", "max_members"]
 
     def get_status(self, obj):
-        # if obj.done:
-        #     return "Done"
-        # else:
-        #     return "To Do"
-
-        # if (obj.status==0|1):
-        #     return("To Do")
-        # else:
-        #     return("Done")
-
         return obj.get_status_display()
 
 
 class ProjectSerializerstartswithA(serializers.ModelSerializer):
+    """
+    create a projectserializer where name start with A
+    """
+
     project_name = serializers.CharField(source="name")
     done = serializers.SerializerMethodField()
 

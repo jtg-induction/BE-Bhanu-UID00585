@@ -1,14 +1,14 @@
 from django.db import models
+from .constants import STATUS_CHOICES
 
 from users.models import CustomUser
 
 
 class Project(models.Model):
-    STATUS_CHOICES = [
-        (0, "To be started"),
-        (1, "In progress"),
-        (2, "Completed"),
-    ]
+    """
+    Represents a project that can have multiple members.
+    """
+
     members = models.ManyToManyField(
         CustomUser, through="ProjectMember", related_name="projects"
     )
@@ -21,10 +21,12 @@ class Project(models.Model):
 
 
 class ProjectMember(models.Model):
+    """
+    Represents the association between a project and its members.
+    """
+
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    member = models.ForeignKey(
-        CustomUser, on_delete=models.CASCADE
-    )  # (fk to User model - use AUTH_USER_MODEL from settings)
+    member = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
 
 class Meta:
@@ -34,5 +36,3 @@ class Meta:
             name="unique_enrollment",
         )
     ]
-
-    # Add string representation for this model with project name and user email/first name.
