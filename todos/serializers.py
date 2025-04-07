@@ -1,6 +1,9 @@
 from rest_framework import serializers
+from users.models import CustomUser
 from users.serializers import CustomUserSerializerWithoutID
 from .models import Todo
+
+from users.serializers import CustomUserSerializerWithoutID
 
 
 class TodoSerializer(serializers.ModelSerializer):
@@ -9,11 +12,9 @@ class TodoSerializer(serializers.ModelSerializer):
     """
 
     status = serializers.SerializerMethodField()
-    created_at = serializers.DateTimeField(
-        source="date_created", format="%I:%M %p, %d %b, %Y"
-    )
-    creator = CustomUserSerializerWithoutID(source="user", read_only=True)
-
+    created_at = serializers.DateTimeField(source="date_created", format="%I:%M %p, %d %b, %Y")
+    creator = CustomUserSerializerWithoutID(source='user', read_only=True)
+ 
     class Meta:
         model = Todo
         fields = ["id", "name", "status", "created_at", "creator"]
@@ -24,11 +25,15 @@ class TodoSerializer(serializers.ModelSerializer):
         else:
             return "To Do"
 
+class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
+    pending_count = serializers.IntegerField()
 
-class TodoDateSerializer(serializers.ModelSerializer):
-    """
-    Serializer for Todo having the Start and End Date
-    """
+    class Meta:
+        model = CustomUser
+        fields = ["id", "first_name", "last_name", "email", "pending_count"]
+
+
+class Tododaterangeserializer(serializers.ModelSerializer):
 
     created_at = serializers.DateTimeField(
         source="date_created", format="%I:%M %p, %d %b, %Y"
@@ -43,7 +48,6 @@ class TodoDateSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         return "Done" if obj.done else "Pending"
-
 
 class TodoCreateSerializer(serializers.ModelSerializer):
     """
@@ -94,3 +98,17 @@ class TodoViewSetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Todo
         fields = ["todo_id", "todo", "done"]
+
+class TodoCreateSerializer(serializers.ModelSerializer):
+    user_id = serializers.IntegerField(write_only=True)
+    todo = serializers.CharField(write_only=True)
+
+    id = serializers.IntegerField(read_only=True)
+    name = serializers.CharField(read_only=True)
+    date_created = serializers.DateTimeField(read_only=True)
+
+    class Meta:
+        model = Todo
+        fields = "__all__"
+
+

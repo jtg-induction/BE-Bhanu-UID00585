@@ -29,10 +29,10 @@ class UserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
+
     """
     A model representing a user.
     """
-
     is_superuser = models.BooleanField(default=False)
     first_name = models.CharField(max_length=30)
     email = models.EmailField(unique=True)

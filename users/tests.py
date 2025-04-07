@@ -1,14 +1,13 @@
 import json
-
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework.test import APITestCase
+from rest_framework.authtoken.models import Token
 
 
 class UserRegistrationAPIViewTestCase(APITestCase):
-    url = reverse("users:register")
-
-    def test_invalid_password(self):
+     url = reverse("users:register")
+     def test_invalid_password(self):
         """
         Test to verify that a post call with invalid passwords
         """
@@ -19,44 +18,42 @@ class UserRegistrationAPIViewTestCase(APITestCase):
         }
         response = self.client.post(self.url, user_data)
         self.assertEqual(400, response.status_code)
+        
+        def test_user_registration(self):
+            """
+            Test to verify that a post call with user valid data
+            """
+            user_data = {
+                "email": "test@testuser.com",
+                "password": "StrongPassword123!",
+                "confirm_password": "StrongPassword123!",
+            }
+            response = self.client.post(self.url, user_data)
+            self.assertEqual(response.status_code, 201)
+            self.assertTrue("token" in json.loads(response.content))
 
-    def test_user_registration(self):
-        """
-        Test to verify that a post call with user valid data
-        """
-        user_data = {
-            "email": "test@testuser.com",
-            "password": "StrongPassword123!",
-            "confirm_password": "StrongPassword123!",
-        }
-        response = self.client.post(self.url, user_data)
-        self.assertEqual(response.status_code, 201)
-        self.assertTrue("token" in json.loads(response.content))
+        def test_unique_email_validation(self):
+            """
+            Test to verify that a post call with already exists email
+            """
+            user_data_1 = {
+                "email": "test@testuser.com",
+                "password": "StrongPassword123!",
+                "confirm_password": "StrongPassword123!",
+            }
+            response = self.client.post(self.url, user_data_1)
+            self.assertEqual(201, response.status_code)
 
-    def test_unique_email_validation(self):
-        """
-        Test to verify that a post call with already exists email
-        """
-        user_data_1 = {
-            "email": "test@testuser.com",
-            "password": "StrongPassword123!",
-            "confirm_password": "StrongPassword123!",
-        }
-        response = self.client.post(self.url, user_data_1)
-        self.assertEqual(201, response.status_code)
-
-        user_data_2 = {
-            "email": "test@testuser.com",
-            "password": "123123",
-            "confirm_password": "123123",
-        }
-        response = self.client.post(self.url, user_data_2)
-        self.assertEqual(400, response.status_code)
-
+            user_data_2 = {
+                "email": "test@testuser.com",
+                "password": "123123",
+                "confirm_password": "123123",
+            }
+            response = self.client.post(self.url, user_data_2)
+            self.assertEqual(400, response.status_code)
 
 class UserLoginAPIViewTestCase(APITestCase):
     url = reverse("users:login")
-
     def setUp(self):
         self.email = "john@snow.com"
         self.password = "you_know_nothing"
@@ -78,3 +75,4 @@ class UserLoginAPIViewTestCase(APITestCase):
         )
         self.assertEqual(200, response.status_code)
         self.assertTrue("auth_token" in json.loads(response.content))
+

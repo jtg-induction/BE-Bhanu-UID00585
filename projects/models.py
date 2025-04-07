@@ -3,6 +3,7 @@ from users.models import CustomUser
 
 
 class Project(models.Model):
+
     """
     model that represent the project
     """
@@ -41,3 +42,4 @@ class Meta:
             name="unique_enrollment",
         )
     ]
+
