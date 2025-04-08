@@ -95,7 +95,6 @@ class CustomUserWithProjectStatus(serializers.ModelSerializer):
             "in_progress_projects",
             "completed_projects",
         ]
-        fields = ['id', 'first_name', 'last_name', 'email', 'pending_count']    
 
 
 class UserRegistrationSerializer(CustomUserSerializer):
@@ -104,6 +103,7 @@ class UserRegistrationSerializer(CustomUserSerializer):
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
     last_name = serializers.RegexField(
+        required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )

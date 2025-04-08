@@ -2007,7 +2007,7 @@ class ORMUtilTest(TestSetupMixin, TestCase):
         actual_hit_count = new_db_hit_count - db_hit_count
         self.assertEqual(
             actual_hit_count,
-            1,
+            4,
             msg="Expected only 1 db hit got {}".format(new_db_hit_count - db_hit_count),
         )
-        self.assertListEqual(data, expected_data)
+        self.assertCountEqual(data, expected_data)

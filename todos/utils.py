@@ -295,6 +295,7 @@ def fetch_project_with_member_name_start_or_end_with_a():
     )
     return ProjectSerializertartswithA(projects, many=True).data
 
+
 # Add code to this util to return project wise todos stats per user in specified format.
 # [{
 #   "project_title": "Project A"

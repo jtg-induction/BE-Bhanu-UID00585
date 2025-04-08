@@ -13,6 +13,7 @@ class UserRegistrationAPIView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
 
+
 class UserLoginAPIView(GenericAPIView):
     serializer_class = UserLoginSerializer
     permission_classes = [AllowAny]
