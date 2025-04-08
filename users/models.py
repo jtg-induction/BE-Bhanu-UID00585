@@ -8,7 +8,7 @@ from django.db import models
 
 class UserManager(BaseUserManager):
     """
-    create a user model
+    Manager for the CustomUser  model.
     """
 
     def create_user(self, email, password, **extra_fields):
@@ -33,7 +33,7 @@ class UserManager(BaseUserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
-    create a customuser model
+    Custom user model that uses email as the unique identifier.
     """
 
     is_superuser = models.BooleanField(default=False)

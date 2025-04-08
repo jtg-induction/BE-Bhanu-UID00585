@@ -5,6 +5,7 @@ from users.models import CustomUser
 
 """creating a models for project  """
 
+
 class Project(models.Model):
     """
     Represents a project that can have multiple members.

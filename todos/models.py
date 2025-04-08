@@ -5,7 +5,7 @@ from django.db import models
 
 class Todo(models.Model):
     """
-    create todo model
+    Represents a to-do item associated with a user.
     """
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)

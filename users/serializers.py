@@ -1,15 +1,10 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth import get_user_model
-from django.contrib.auth.hashers import make_password
-
 from rest_framework import serializers
-from rest_framework.authtoken.models import Token
 from users.models import CustomUser
 
 
-class CustomUserserializer(serializers.ModelSerializer):
+class CustomUserSerializer(serializers.ModelSerializer):
     """
-    creating a customuser serializer
+    Serializer for the CustomUser  model.
     """
 
     class Meta:
@@ -17,9 +12,9 @@ class CustomUserserializer(serializers.ModelSerializer):
         fields = ["id", "email", "first_name", "last_name"]
 
 
-class CustomUserserializerWithoutid(serializers.ModelSerializer):
+class CustomUserSerializerWithoutid(serializers.ModelSerializer):
     """
-    creating a serializer without ID
+    Serializer for the CustomUser  model without the ID field.
     """
 
     class Meta:
@@ -27,13 +22,12 @@ class CustomUserserializerWithoutid(serializers.ModelSerializer):
         fields = ["email", "first_name", "last_name"]
 
 
-class UserTodoStatsSerializer(serializers.ModelSerializer):
+class UserTodoSerializer(CustomUserSerializer):
     """
-    create a serializer which show the pending and completed count
+    Serializer for displaying user information along with their to-do counts.
     """
 
     completed_count = serializers.IntegerField()
-
     pending_count = serializers.IntegerField()
 
     class Meta:
@@ -48,9 +42,9 @@ class UserTodoStatsSerializer(serializers.ModelSerializer):
         ]
 
 
-class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
+class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
     """
-    CustomUserSerializer excludes ID
+    Serializer for displaying user information without the ID field, including to-do counts.
     """
 
     completed_count = serializers.IntegerField()
@@ -67,7 +61,11 @@ class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
         ]
 
 
-class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
+class TodoPendingSerializer(serializers.ModelSerializer):
+    """
+    Serializer for displaying user information along with their pending to-do count.
+    """
+
     pending_count = serializers.IntegerField()
 
     class Meta:
@@ -77,7 +75,7 @@ class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
 
 class CustomUserWithProjectStatus(serializers.ModelSerializer):
     """
-    User serializer which includes count of projects of different status of which the user is part of.
+    Serializer for displaying user information along with project status counts.
     """
 
     to_do_projects = serializers.ListField(

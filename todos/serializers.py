@@ -1,22 +1,19 @@
-from django.contrib.auth import get_user_model
 from rest_framework import serializers
-
-
 from users.models import CustomUser
 from .models import Todo
-from users.serializers import CustomUserserializerWithoutid
+from users.serializers import CustomUserSerializerWithoutid
 
 
-class Todoserializer(serializers.ModelSerializer):
+class TodoSerializer(serializers.ModelSerializer):
     """
-    creating a Todoserializer
+    Serializer for creating and displaying to-do items.
     """
 
     status = serializers.SerializerMethodField()
     created_at = serializers.DateTimeField(
         source="date_created", format="%I:%M %p, %d %b, %Y"
     )
-    creator = CustomUserserializerWithoutid(source="user", read_only=True)
+    creator = CustomUserSerializerWithoutid(source="user", read_only=True)
 
     class Meta:
         model = Todo
@@ -29,9 +26,9 @@ class Todoserializer(serializers.ModelSerializer):
             return "To Do"
 
 
-class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
+class TodoPendingSerializer(serializers.ModelSerializer):
     """
-    create a serializer for for pending count
+    Serializer for displaying user statistics related to pending to-do items.
     """
 
     pending_count = serializers.IntegerField()
@@ -41,9 +38,9 @@ class UserPendingTodoStatsSerializer(serializers.ModelSerializer):
         fields = ["id", "first_name", "last_name", "email", "pending_count"]
 
 
-class Tododaterangeserializer(serializers.ModelSerializer):
+class TodoDateRangeSerializer(TodoSerializer):
     """
-    create a serializers having the start and ending date
+    Serializer for displaying to-do items with date range information.
     """
 
     created_at = serializers.DateTimeField(
