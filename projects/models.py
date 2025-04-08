@@ -3,6 +3,7 @@ from .constants import STATUS_CHOICES
 
 from users.models import CustomUser
 
+"""creating a models for project  """
 
 class Project(models.Model):
     """

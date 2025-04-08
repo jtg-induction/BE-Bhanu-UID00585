@@ -9,7 +9,7 @@ class Todo(models.Model):
     """
 
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    name = models.CharField(max_length=1000)
+    name = models.CharField(max_length=250)
     done = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True)
     date_completed = models.DateTimeField(null=True, blank=True)
