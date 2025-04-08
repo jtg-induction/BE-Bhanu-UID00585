@@ -20,11 +20,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         return obj.get_status_display()
 
 
-
 class ProjectSerializerStartsWithA(serializers.ModelSerializer):
     """
     serilaizer for project where the name start with A or ends with A
     """
+
     project_name = serializers.CharField(source="name")
     done = serializers.SerializerMethodField()
 
@@ -65,6 +65,7 @@ class ProjectReportSerializer(serializers.ModelSerializer):
 
     report = CustomUserSerializerTodoWithoutID(many=True)
     project_title = serializers.CharField(source="name")
+
     class Meta:
         model = Project
         fields = ["project_title", "report"]

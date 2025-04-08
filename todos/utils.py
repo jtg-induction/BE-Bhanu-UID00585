@@ -87,6 +87,7 @@ def fetch_all_todo_list_with_user_details():
     serializer = TodoSerializer(todos, many=True)
     return serializer.data
 
+
 # Add code to this util to return all projects with following details in specified format.
 # [{
 #   "id": 1,
@@ -116,6 +117,8 @@ def fetch_projects_details():
     )
     serializer = ProjectSerializer(projects, many=True)
     return serializer.data
+
+
 # Add code to this util to  return stats (done & to do count) of all users in specified format.
 # [{
 #   "id": 1,
@@ -277,6 +280,8 @@ def fetch_completed_todos_with_in_date_range(start, end):
 
     serializer = Tododaterangeserializer(todos, many=True)
     return serializer.data
+
+
 # Add code to this util to return list of projects having members who have name either starting with A or ending with A
 # (case-insensitive) in specified format.
 # [{
@@ -309,6 +314,7 @@ def fetch_project_with_member_name_start_or_end_with_a():
 
     serializer = ProjectSerializerStartsWithA(projects, many=True)
     return serializer.data
+
 
 # Add code to this util to return project wise todos stats per user in specified format.
 # [{
