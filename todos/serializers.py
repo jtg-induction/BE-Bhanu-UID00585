@@ -54,23 +54,17 @@ class TodoDateRangeSerializer(TodoSerializer):
 
 
 class TodoCreateSerializer(serializers.ModelSerializer):
+    """
+    to perfom the CRUD operation
+    """
+
     user_id = serializers.IntegerField(write_only=True)
     todo = serializers.CharField(write_only=True)
-
     id = serializers.IntegerField(read_only=True)
     name = serializers.CharField(read_only=True)
     date_created = serializers.DateTimeField(read_only=True)
+    done = serializers.BooleanField(required=False)
 
     class Meta:
         model = Todo
         fields = "__all__"
-
-
-class TodoupdateSerializerlizer(serializers.ModelSerializer):
-    done = serializers.BooleanField()
-    name = serializers.CharField(source="todo", read_only=True)
-    todo = serializers.CharField()
-
-    class Meta:
-        model = Todo
-        fields = ["todo", "done", "name"]

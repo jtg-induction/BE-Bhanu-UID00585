@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import AllowAny
 
 from todos.models import Todo
-from todos.serializers import TodoCreateSerializer, TodoupdateSerializerlizer
+from todos.serializers import TodoCreateSerializer
 
 
 class TodoAPIViewSet(ModelViewSet):
@@ -18,4 +18,4 @@ class TodoAPIViewSet(ModelViewSet):
         if self.request.method == "PUT":
             return TodoCreateSerializer
         if self.request.method == "PATCH":
-            return TodoupdateSerializerlizer
+            return TodoCreateSerializer

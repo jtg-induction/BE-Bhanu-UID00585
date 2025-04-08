@@ -38,7 +38,7 @@ class ProjectSerializerstartswithA(serializers.ModelSerializer):
 
 class ProjectReportSerializer(ProjectSerializer):
     """
-    Serializer for displaying project reports.
+    Serializer that displays additional 'report' field.
     """
 
     report = CustomUserSerializerTodoWithoutID(many=True)
