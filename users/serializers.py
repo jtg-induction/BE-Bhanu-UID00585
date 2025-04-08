@@ -103,15 +103,15 @@ class UserRegistrationSerializer(CustomUserSerializer):
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
-    last_name=serializers.RegexField(
+    last_name = serializers.RegexField(
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
-    password=serializers.CharField(write_only=True, style={"input_type": "password"})
-    confirm_password=serializers.CharField(
+    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+    confirm_password = serializers.CharField(
         write_only=True, style={"input_type": "password"}
     )
-    token =serializers.SerializerMethodField()
+    token = serializers.SerializerMethodField()
 
     class Meta(CustomUserSerializer.Meta):
         fields=CustomUserSerializer.Meta.fields+[
@@ -148,23 +148,18 @@ class UserRegistrationSerializer(CustomUserSerializer):
     def create(self, validated_data):
         validated_data.pop("confirm_password")
         return super().create(validated_data)
-    
-class UserLoginSerializer(serializers.Serializer):
-    email=serializers.EmailField()
-    password=serializers.CharField(write_only=True, style={"input_type": "password"})
 
-    def validate(self,data):
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True, style={"input_type": "password"})
+
+    def validate(self, data):
         try:
-            user=CustomUser.objects.get(email=data["email"])
+            user = CustomUser.objects.get(email=data["email"])
             if not user.check_password(data["password"]):
                 raise serializers.ValidationError("Invalid please try again.")
-            data["user"]=user
+            data["user"] = user
             return data
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("Custom User does not exist")
-
-
-
-     
-
-    
