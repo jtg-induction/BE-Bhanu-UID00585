@@ -2,10 +2,10 @@ from datetime import datetime
 from django.db.models.functions import Concat
 from projects.serializers import (
     ProjectReportSerializer,
-    ProjectSerializerstartswithA,
+    ProjectSerializertartswithA,
     ProjectSerializer,
 )
-from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer
+from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer, TodoUserPendingSerializer
 from users.models import CustomUser
 
 from todos.models import Todo
@@ -174,7 +174,7 @@ def fetch_five_users_with_max_pending_todos():
         .order_by("-pending_count")
         .only("id", "first_name", "last_name", "email")[:5]
     )
-    return TodoPendingSerializer(users, many=True).data
+    return TodoUserPendingSerializer(users, many=True).data
 
 
 # Add code to this util to return users with given number of pending todos in specified format.
@@ -293,7 +293,7 @@ def fetch_project_with_member_name_start_or_end_with_a():
         .only("name", "status", "max_members")
         .order_by("id")
     )
-    return ProjectSerializerstartswithA(projects, many=True).data
+    return ProjectSerializertartswithA(projects, many=True).data
 
 
 # Add code to this util to return project wise todos stats per user in specified format.
