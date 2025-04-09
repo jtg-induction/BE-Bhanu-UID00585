@@ -16,7 +16,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "status", "existing_member_count", "max_members"]
 
     def get_status(self, obj):
-        return obj.get_status_display()
+        return obj.get_status_display() 
 
 class ProjectSerializerstartswithA(serializers.ModelSerializer):
     """

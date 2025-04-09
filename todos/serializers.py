@@ -28,7 +28,7 @@ class TodoPendingSerializer(serializers.ModelSerializer):
     """
 
     pending_count = serializers.IntegerField()
-
+    
     class Meta:
         model = CustomUser
         fields = ["id", "first_name", "last_name", "email", "pending_count"]
@@ -55,7 +55,7 @@ class TodoDateRangeSerializer(TodoSerializer):
 
 class TodoCreateSerializer(serializers.ModelSerializer):
     """
-    to perfom the CRUD operation
+    Serializer for creating and updating Todo items.
     """
 
     user_id = serializers.IntegerField(write_only=True)
