@@ -3,7 +3,6 @@ from users.models import CustomUser
 from .models import Todo
 from users.serializers import CustomUserSerializerWithoutid
 
-
 class TodoSerializer(serializers.ModelSerializer):
     """
     Serializer for creating and displaying to-do items.
@@ -25,7 +24,6 @@ class TodoSerializer(serializers.ModelSerializer):
         else:
             return "To Do"
 
-
 class TodoPendingSerializer(serializers.ModelSerializer):
     """
     Serializer for displaying user statistics related to pending to-do items.
@@ -37,12 +35,11 @@ class TodoPendingSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ["id", "first_name", "last_name", "email", "pending_count"]
 
-
 class TodoDateRangeSerializer(TodoSerializer):
     """
     Serializer for displaying to-do items with date range information.
     """
-
+    
     created_at = serializers.DateTimeField(
         source="date_created", format="%I:%M %p, %d %b, %Y"
     )

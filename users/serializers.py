@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from users.models import CustomUser
 
-
 class CustomUserSerializer(serializers.ModelSerializer):
     """
     Serializer for the CustomUser  model.
@@ -11,7 +10,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ["id", "email", "first_name", "last_name"]
 
-
 class CustomUserSerializerWithoutid(serializers.ModelSerializer):
     """
     Serializer for the CustomUser  model without the ID field.
@@ -20,7 +18,6 @@ class CustomUserSerializerWithoutid(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["email", "first_name", "last_name"]
-
 
 class UserTodoSerializer(CustomUserSerializer):
     """
@@ -41,7 +38,6 @@ class UserTodoSerializer(CustomUserSerializer):
             "pending_count",
         ]
 
-
 class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
     """
     Serializer for displaying user information without the ID field, including to-do counts.
@@ -60,7 +56,6 @@ class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
             "completed_count",
         ]
 
-
 class TodoPendingSerializer(serializers.ModelSerializer):
     """
     Serializer for displaying user information along with their pending to-do count.
@@ -71,7 +66,6 @@ class TodoPendingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["id", "first_name", "last_name", "email", "pending_count"]
-
 
 class CustomUserWithProjectStatus(serializers.ModelSerializer):
     """

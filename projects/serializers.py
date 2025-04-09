@@ -2,7 +2,6 @@ from rest_framework import serializers
 from projects.models import Project
 from users.serializers import CustomUserSerializerTodoWithoutID
 
-
 class ProjectSerializer(serializers.ModelSerializer):
     """
     Serializer for creating and displaying project details.
@@ -18,7 +17,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         return obj.get_status_display()
-
 
 class ProjectSerializerstartswithA(serializers.ModelSerializer):
     """
@@ -37,7 +35,6 @@ class ProjectSerializerstartswithA(serializers.ModelSerializer):
             return True
         else:
             return False
-
 
 class ProjectReportSerializer(ProjectSerializer):
     """

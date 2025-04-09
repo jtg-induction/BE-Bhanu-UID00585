@@ -3,9 +3,6 @@ from .constants import STATUS_CHOICES
 
 from users.models import CustomUser
 
-"""creating a models for project  """
-
-
 class Project(models.Model):
     """
     Represents a project that can have multiple members.
@@ -20,7 +17,6 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
-
 
 class ProjectMember(models.Model):
     """
