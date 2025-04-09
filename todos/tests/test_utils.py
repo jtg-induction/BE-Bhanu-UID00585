@@ -1395,8 +1395,7 @@ class ORMUtilTest(TestSetupMixin, TestCase):
     def test_fetch_projects_details(self):
         expected_data = [
             {
-                "id": 5,
-                "name": "Project E",
+                'id': 5, "name": "Project E",
                 "status": "In progress",
                 "existing_member_count": 1,
                 "max_members": 1,

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from users.models import CustomUser
-
+ 
 class CustomUserSerializer(serializers.ModelSerializer):
     """
     Serializer for the CustomUser  model.
@@ -9,6 +9,7 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ["id", "email", "first_name", "last_name"]
+        read_only_fields = ["id"]
 
 class CustomUserSerializerWithoutid(serializers.ModelSerializer):
     """

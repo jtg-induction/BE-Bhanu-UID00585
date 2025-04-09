@@ -5,7 +5,6 @@ from users.serializers import CustomUserSerializerTodoWithoutID
 class ProjectSerializer(serializers.ModelSerializer):
     """
     Serializer for creating and displaying project details.
-
     """
 
     existing_member_count = serializers.IntegerField()
@@ -16,7 +15,7 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "status", "existing_member_count", "max_members"]
 
     def get_status(self, obj):
-        return obj.get_status_display()
+        return obj.get_status_display() 
 
 class ProjectSerializerstartswithA(serializers.ModelSerializer):
     """
@@ -38,7 +37,7 @@ class ProjectSerializerstartswithA(serializers.ModelSerializer):
 
 class ProjectReportSerializer(ProjectSerializer):
     """
-    Serializer for displaying project reports.
+    Serializer that displays additional 'report' field.
     """
 
     report = CustomUserSerializerTodoWithoutID(many=True)
