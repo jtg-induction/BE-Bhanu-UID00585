@@ -52,7 +52,6 @@ class TodoDateRangeSerializer(TodoSerializer):
     def get_status(self, obj):
         return "Done" if obj.done else "Pending"
 
-
 class TodoCreateSerializer(serializers.ModelSerializer):
     """
     Serializer for creating and updating Todo items.

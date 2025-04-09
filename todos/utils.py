@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db.models.functions import Concat
 from projects.serializers import (
     ProjectReportSerializer,
-    ProjectSerializertartswithA,
+    ProjectSerializerstartswithA,
     ProjectSerializer,
 )
 from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer
@@ -293,7 +293,7 @@ def fetch_project_with_member_name_start_or_end_with_a():
         .only("name", "status", "max_members")
         .order_by("id")
     )
-    return ProjectSerializertartswithA(projects, many=True).data
+    return ProjectSerializerstartswithA(projects, many=True).data
 
 
 # Add code to this util to return project wise todos stats per user in specified format.
