@@ -96,9 +96,9 @@ class CustomUserWithProjectStatus(serializers.ModelSerializer):
             "completed_projects",
         ]
 
-
 class UserRegistrationSerializer(CustomUserSerializer):
-    first_name=serializers.RegexField(
+    first_name = serializers.RegexField(
+        required=False,
         regex=r"^[a-zA-Z0-9]+$",
         error_messages={"invalid": "only alphanumeric are allowed."},
     )
@@ -114,10 +114,12 @@ class UserRegistrationSerializer(CustomUserSerializer):
     token = serializers.SerializerMethodField()
 
     class Meta(CustomUserSerializer.Meta):
-        fields=CustomUserSerializer.Meta.fields+[
-            "password","confirm_password","token"
+        fields = CustomUserSerializer.Meta.fields + [
+            "password",
+            "confirm_password",
+            "token",
         ]
-        read_only_fields=CustomUserSerializer.Meta.read_only_fields +["token"]
+        read_only_fields = CustomUserSerializer.Meta.read_only_fields + ["token"]
 
     def get_token(self, user):
         try:

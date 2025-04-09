@@ -4,15 +4,11 @@ from rest_framework.authtoken.models import Token
 from rest_framework.permissions import AllowAny
 from django.contrib.auth.password_validation import validate_password
 from rest_framework.generics import CreateAPIView, GenericAPIView
-
-
 from users.serializers import UserLoginSerializer, UserRegistrationSerializer
-
 
 class UserRegistrationAPIView(CreateAPIView):
     serializer_class = UserRegistrationSerializer
     permission_classes = [AllowAny]
-
 
 class UserLoginAPIView(GenericAPIView):
     serializer_class = UserLoginSerializer
