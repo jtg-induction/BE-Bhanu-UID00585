@@ -17,7 +17,6 @@ class ProjectSerializer(serializers.ModelSerializer):
     def get_status(self, obj):
         return obj.get_status_display()
 
-
 class ProjectSerializerStartsWithA(serializers.ModelSerializer):
     """
     serilaizer for project where the name start with A or ends with A
@@ -35,7 +34,6 @@ class ProjectSerializerStartsWithA(serializers.ModelSerializer):
             return True
         else:
             return False
-
 
 class ProjectReportSerializer(serializers.ModelSerializer):
     """

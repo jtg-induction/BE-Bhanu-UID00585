@@ -41,13 +41,10 @@ class UserTodoSerializer(CustomUserSerializer):
             "pending_count",
         ]
 
-class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
+class CustomUserSerializerTodoWithoutID(UserTodoSerializer):
     """
     Serializer for displaying user information without the ID field, including to-do counts.
     """
-
-    completed_count = serializers.IntegerField()
-    pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
@@ -59,12 +56,10 @@ class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
             "completed_count",
         ]
 
-class TodoPendingSerializer(serializers.ModelSerializer):
+class TodoPendingSerializer(UserTodoSerializer):
     """
     Serializer for displaying user information along with their pending to-do count.
     """
-
-    pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser

@@ -1,8 +1,8 @@
 from rest_framework import serializers
-from users.serializers import CustomUserSerializerWithoutID
+
+from users.models import CustomUser
 from .models import Todo
 from users.serializers import CustomUserSerializerWithoutid
-
 
 class TodoSerializer(serializers.ModelSerializer):
     """

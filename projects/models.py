@@ -18,7 +18,6 @@ class Project(models.Model):
     def __str__(self):
         return self.name
 
-
 class ProjectMember(models.Model):
     """
     Represents the association between a project and its members.
@@ -26,11 +25,10 @@ class ProjectMember(models.Model):
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
     member = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-
-class Meta:
-    Constraints = [
-        models.UniqueConstraint(
-            fields=["member", "project"],
-            name="unique_enrollment",
-        )
-    ]
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["member", "project"],
+                name="unique_enrollment",
+            )
+        ]   
