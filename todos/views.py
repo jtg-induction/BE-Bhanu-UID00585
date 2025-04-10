@@ -18,12 +18,3 @@ class TodoAPIViewSet(ModelViewSet):
     permission_classes = [AllowAny]
     queryset = Todo.objects.all()
 
-    def get_serializer_class(self):
-        if self.request.method == "POST":
-            return TodoCreateSerializer
-        if self.request.method == "GET":
-            return TodoCreateSerializer
-        if self.request.method == "PUT":
-            return TodoCreateSerializer
-        if self.request.method == "PATCH":
-            return TodoCreateSerializer

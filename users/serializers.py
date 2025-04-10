@@ -41,13 +41,10 @@ class UserTodoSerializer(CustomUserSerializer):
             "pending_count",
         ]
 
-class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
+class CustomUserSerializerTodoWithoutID(UserTodoSerializer):
     """
     Serializer for displaying user information without the ID field, including to-do counts.
     """
-
-    completed_count = serializers.IntegerField()
-    pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
@@ -59,12 +56,10 @@ class CustomUserSerializerTodoWithoutID(CustomUserSerializerWithoutid):
             "completed_count",
         ]
 
-class TodoPendingSerializer(serializers.ModelSerializer):
+class TodoPendingSerializer(UserTodoSerializer):
     """
     Serializer for displaying user information along with their pending to-do count.
     """
-
-    pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
@@ -158,11 +153,10 @@ class UserRegistrationSerializer(CustomUserSerializer):
         validated_data.pop("confirm_password")
         return super().create(validated_data)
 
+
 class UserLoginSerializer(serializers.Serializer):
     """
-    Serializer for user login.
-
-    This serializer handles the validation of user credentials during login.
+    Serializer for handling user login.
     """
 
     email = serializers.EmailField()
@@ -172,9 +166,8 @@ class UserLoginSerializer(serializers.Serializer):
         try:
             user = CustomUser.objects.get(email=data["email"])
             if not user.check_password(data["password"]):
-                raise serializers.ValidationError("Invalid credentials, please try again.")
+                raise serializers.ValidationError("Invalid please try again.")
             data["user"] = user
             return data
         except CustomUser.DoesNotExist:
-            raise serializers.ValidationError("User does not exist.")
-        
+            raise serializers.ValidationError("Invalid please try again.")

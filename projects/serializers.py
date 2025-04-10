@@ -6,7 +6,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     """
     Serializer for creating and displaying project details.
     """
-    
+
     existing_member_count = serializers.IntegerField()
     status = serializers.SerializerMethodField()
 
@@ -15,11 +15,11 @@ class ProjectSerializer(serializers.ModelSerializer):
         fields = ["id", "name", "status", "existing_member_count", "max_members"]
 
     def get_status(self, obj):
-        return obj.get_status_display() 
+        return obj.get_status_display()
 
-class ProjectSerializertartswithA(serializers.ModelSerializer):
+class ProjectSerializerStartsWithA(serializers.ModelSerializer):
     """
-    Serializer for projects where the name starts with 'A'.
+    serilaizer for project where the name start with A or ends with A
     """
 
     project_name = serializers.CharField(source="name")
@@ -35,9 +35,9 @@ class ProjectSerializertartswithA(serializers.ModelSerializer):
         else:
             return False
 
-class ProjectReportSerializer(ProjectSerializer):
+class ProjectReportSerializer(serializers.ModelSerializer):
     """
-    Serializer that displays additional 'report' field.
+    Serializer for projects where the name starts with 'A'.
     """
 
     report = CustomUserSerializerTodoWithoutID(many=True)

@@ -1,4 +1,4 @@
-class ProjectMemberApiViewSet():
+class ProjectMemberApiViewSet:
     """
     constraints
      - a user can be a member of max 2 projects only
@@ -35,3 +35,4 @@ class ProjectMemberApiViewSet():
 
       there will be many other cases think of that and share on forum
     """
+    

@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db.models.functions import Concat
 from projects.serializers import (
     ProjectReportSerializer,
-    ProjectSerializertartswithA,
+    ProjectSerializerStartsWithA,
     ProjectSerializer,
 )
 from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer
@@ -163,7 +163,8 @@ def fetch_users_todo_stats():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this function for test cases to pass.
+# use json.load(json.dumps(serializer.data)) while returning data from this
+# function for test cases to pass.
 def fetch_five_users_with_max_pending_todos():
     """
     Util to fetch top five user with maximum number of pending todos
@@ -194,7 +195,8 @@ def fetch_five_users_with_max_pending_todos():
 #   "pending_count": 4
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this function for test cases to pass.
+# use json.load(json.dumps(serializer.data)) while returning data from this
+# function for test cases to pass.
 # Hint : use annotation and aggregations
 def fetch_users_with_n_pending_todos(n):
     """
@@ -231,10 +233,12 @@ def fetch_users_with_n_pending_todos(n):
 #   "created_at": "5:30 PM, 02 Feb, 2021"
 # }]
 # Note: use serializer for generating this format.
-# use json.load(json.dumps(serializer.data)) while returning data from this function for test cases to pass.
+# use json.load(json.dumps(serializer.data)) while returning data from this
+#  function for test cases to pass.
 def fetch_completed_todos_with_in_date_range(start, end):
     """
-    Util to fetch todos that were created in between given dates and marked as done.
+    Util to fetch todos that were created
+    in between given dates and marked as done.
     :param start: string - Start date e.g. (12-01-2021)
     :param end: string - End date e.g. (12-02-2021)
     :return: list of dicts - List of todos
@@ -260,7 +264,6 @@ def fetch_completed_todos_with_in_date_range(start, end):
             "date_created",
         )
     )
-
     return TodoDateRangeSerializer(todos, many=True).data
 
 
@@ -293,7 +296,7 @@ def fetch_project_with_member_name_start_or_end_with_a():
         .only("name", "status", "max_members")
         .order_by("id")
     )
-    return ProjectSerializertartswithA(projects, many=True).data
+    return ProjectSerializerStartsWithA(projects, many=True).data
 
 
 # Add code to this util to return project wise todos stats per user in specified format.
