@@ -6,6 +6,7 @@ class ProjectSerializer(serializers.ModelSerializer):
     """
     Serializer for creating and displaying project details.
     """
+    
     existing_member_count = serializers.IntegerField()
     status = serializers.SerializerMethodField()
 

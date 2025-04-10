@@ -1,5 +1,5 @@
-from contextvars import Token
-from rest_framework import serializers
+from rest_framework.authtoken.models import Token
+from rest_framework import serializers 
 from users.models import CustomUser
 from django.contrib.auth.password_validation import validate_password 
  
@@ -97,15 +97,22 @@ class CustomUserWithProjectStatus(serializers.ModelSerializer):
         ]
 
 class UserRegistrationSerializer(CustomUserSerializer):
+    """
+    Serializer for user registration.
+
+    This serializer handles the validation and creation of a new user.
+    It includes fields for first name, last name, password, and token generation.
+    """
+
     first_name = serializers.RegexField(
         required=False,
         regex=r"^[a-zA-Z0-9]+$",
-        error_messages={"invalid": "only alphanumeric are allowed."},
+        error_messages={"invalid": "Only alphanumeric characters are allowed."},
     )
     last_name = serializers.RegexField(
         required=False,
         regex=r"^[a-zA-Z0-9]+$",
-        error_messages={"invalid": "only alphanumeric are allowed."},
+        error_messages={"invalid": "Only alphanumeric characters are allowed."},
     )
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
     confirm_password = serializers.CharField(
@@ -151,8 +158,13 @@ class UserRegistrationSerializer(CustomUserSerializer):
         validated_data.pop("confirm_password")
         return super().create(validated_data)
 
-
 class UserLoginSerializer(serializers.Serializer):
+    """
+    Serializer for user login.
+
+    This serializer handles the validation of user credentials during login.
+    """
+
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
 
@@ -160,8 +172,9 @@ class UserLoginSerializer(serializers.Serializer):
         try:
             user = CustomUser.objects.get(email=data["email"])
             if not user.check_password(data["password"]):
-                raise serializers.ValidationError("Invalid please try again.")
+                raise serializers.ValidationError("Invalid credentials, please try again.")
             data["user"] = user
             return data
         except CustomUser.DoesNotExist:
-            raise serializers.ValidationError("Custom User does not exist")
+            raise serializers.ValidationError("User does not exist.")
+        
