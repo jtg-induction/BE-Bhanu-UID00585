@@ -1,30 +1,20 @@
 from rest_framework.viewsets import ModelViewSet
-
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from todos.models import Todo
-from todos.serializers import (
-    TodoCreateSerializer,
-    TodoUpdateSerializer,
-)
-
+from todos.serializers import TodoCreateSerializer
 
 class TodoAPIViewSet(ModelViewSet):
     """
-    ViewSet for handling CRUD of Todos.
-    """
+    A view set for managing Todo items.
 
-    authentication_classes = [TokenAuthentication]
-    permission_classes = [IsAuthenticated]
+    This view set provides CRUD (Create, Read, Update, Delete) operations
+    for Todo items. It uses the `TodoCreateSerializer` for serializing
+    the data. The view set is accessible to any user, as it allows
+    unauthenticated access.
+    """
+    
+    serializer_class = TodoCreateSerializer
+    permission_classes = [AllowAny]
     queryset = Todo.objects.all()
 
-    def get_serializer_class(self):
-        if self.request.method == "POST":
-            return TodoCreateSerializer
-        if self.request.method == "GET":
-            return TodoCreateSerializer
-        if self.request.method == "PUT":
-            return TodoCreateSerializer
-        if self.request.method == "PATCH":
-            return TodoUpdateSerializer

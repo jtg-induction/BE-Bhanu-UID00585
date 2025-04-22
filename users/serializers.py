@@ -1,7 +1,6 @@
-from django.contrib.auth import authenticate, get_user_model
-from django.contrib.auth.password_validation import validate_password
-from rest_framework import serializers
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers 
 from users.models import CustomUser
 
 
@@ -15,18 +14,20 @@ class CustomUserSerializer(serializers.ModelSerializer):
         fields = ["id", "email", "first_name", "last_name"]
         read_only_fields = ["id"]
 
-
-class CustomUserSerializerWithoutID(serializers.ModelSerializer):
+class CustomUserSerializerWithoutid(serializers.ModelSerializer):
     """
-    Serializer without id
+    Serializer for the CustomUser  model without the ID field.
     """
 
     class Meta:
         model = CustomUser
         fields = ["email", "first_name", "last_name"]
 
+class UserTodoSerializer(CustomUserSerializer):
+    """
+    Serializer for displaying user information along with their to-do counts.
+    """
 
-class CustomUserSerializerWithTodoStats(serializers.ModelSerializer):
     completed_count = serializers.IntegerField()
     pending_count = serializers.IntegerField()
 
@@ -41,14 +42,10 @@ class CustomUserSerializerWithTodoStats(serializers.ModelSerializer):
             "completed_count",
         ]
 
-
-class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
+class CustomUserSerializerTodoWithoutID(UserTodoSerializer):
     """
-    CustomUserSerializer excludes ID
+    Serializer for displaying user information without the ID field, including to-do counts.
     """
-
-    completed_count = serializers.IntegerField()
-    pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
@@ -60,41 +57,18 @@ class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
             "completed_count",
         ]
 
-
-class CustomUserSerializerTodoWithoutID(serializers.ModelSerializer):
+class TodoPendingSerializer(UserTodoSerializer):
     """
-    CustomUserSerializer excludes ID
+    Serializer for displaying user information along with their pending to-do count.
     """
-
-    completed_count = serializers.IntegerField()
-    pending_count = serializers.IntegerField()
-
-    class Meta:
-        model = CustomUser
-        fields = [
-            "first_name",
-            "last_name",
-            "email",
-            "pending_count",
-            "completed_count",
-        ]
-
-
-class TodoPendingSerializer(serializers.ModelSerializer):
-    """
-    Todo with Pending Serializer
-    """
-
-    pending_count = serializers.IntegerField()
 
     class Meta:
         model = CustomUser
         fields = ["id", "first_name", "last_name", "email", "pending_count"]
 
-
 class CustomUserWithProjectStatus(serializers.ModelSerializer):
     """
-    User serializer which includes count of projects of different status of which the user is part of.
+    Serializer for displaying user information along with project status counts.
     """
 
     to_do_projects = serializers.ListField(
@@ -118,21 +92,23 @@ class CustomUserWithProjectStatus(serializers.ModelSerializer):
             "completed_projects",
         ]
 
-
 class UserRegistrationSerializer(CustomUserSerializer):
     """
-    Serializer the data in user register Api.
+    Serializer for user registration.
+
+    This serializer handles the validation and creation of a new user.
+    It includes fields for first name, last name, password, and token generation.
     """
 
     first_name = serializers.RegexField(
         required=False,
         regex=r"^[a-zA-Z0-9]+$",
-        error_messages={"invalid": "only alphanumeric are allowed."},
+        error_messages={"invalid": "Only alphanumeric characters are allowed."},
     )
     last_name = serializers.RegexField(
         required=False,
         regex=r"^[a-zA-Z0-9]+$",
-        error_messages={"invalid": "only alphanumeric are allowed."},
+        error_messages={"invalid": "Only alphanumeric characters are allowed."},
     )
     password = serializers.CharField(write_only=True, style={"input_type": "password"})
     confirm_password = serializers.CharField(
@@ -196,30 +172,3 @@ class UserLoginSerializer(serializers.Serializer):
             return data
         except CustomUser.DoesNotExist:
             raise serializers.ValidationError("Invalid please try again.")
-
-
-class CustomUserWithProjectStatus(serializers.ModelSerializer):
-    """
-    User serializer which includes count of projects of different status of which the user is part of.
-    """
-
-    to_do_projects = serializers.ListField(
-        child=serializers.CharField(), read_only=True
-    )
-    in_progress_projects = serializers.ListField(
-        child=serializers.CharField(), read_only=True
-    )
-    completed_projects = serializers.ListField(
-        child=serializers.CharField(), read_only=True
-    )
-
-    class Meta:
-        model = CustomUser
-        fields = [
-            "first_name",
-            "last_name",
-            "email",
-            "to_do_projects",
-            "in_progress_projects",
-            "completed_projects",
-        ]

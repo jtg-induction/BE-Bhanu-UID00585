@@ -2,14 +2,12 @@ from rest_framework import serializers
 from projects.models import Project, ProjectMember
 from users.serializers import CustomUserSerializerTodoWithoutID
 
-
 class ProjectSerializer(serializers.ModelSerializer):
     """
-    Serializer for Project model.
+    Serializer for creating and displaying project details.
     """
 
     existing_member_count = serializers.IntegerField()
-
     status = serializers.SerializerMethodField()
 
     class Meta:
@@ -18,7 +16,6 @@ class ProjectSerializer(serializers.ModelSerializer):
 
     def get_status(self, obj):
         return obj.get_status_display()
-
 
 class ProjectSerializerStartsWithA(serializers.ModelSerializer):
     """
@@ -38,29 +35,9 @@ class ProjectSerializerStartsWithA(serializers.ModelSerializer):
         else:
             return False
 
-
-class ProjectReportSerializer(ProjectSerializer):
-    """
-    Serilaizer for Project model which  includes specials fields.
-    """
-
-    status = serializers.SerializerMethodField()
-    existing_member_count = serializers.IntegerField()
-    report = CustomUserSerializerTodoWithoutID(many=True)
-
-    class Meta:
-        read_only_fields = [
-            "report",
-            "existing_member_count",
-        ]
-
-    def get_status(self, obj):
-        return obj.get_status_display()
-
-
 class ProjectReportSerializer(serializers.ModelSerializer):
     """
-    Serializer that displays additional 'report' field.
+    Serializer for projects where the name starts with 'A'.
     """
 
     report = CustomUserSerializerTodoWithoutID(many=True)

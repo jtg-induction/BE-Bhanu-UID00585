@@ -3,10 +3,9 @@ from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
-
 class UserManager(BaseUserManager):
     """
-    to craete a user
+    Manager for the CustomUser  model.
     """
 
     def create_user(self, email, password, **extra_fields):
@@ -27,10 +26,9 @@ class UserManager(BaseUserManager):
             raise ValueError("Superuser must have is_superuser = True.")
         return self.create_user(email, password, **extra_fields)
 
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     """
-    A model representing a user.
+    Custom user model that uses email as the unique identifier.
     """
 
     is_superuser = models.BooleanField(default=False)

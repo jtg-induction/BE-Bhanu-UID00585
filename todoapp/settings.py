@@ -29,7 +29,6 @@ DB_USER = os.getenv("DB_USER")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -92,11 +91,11 @@ WSGI_APPLICATION = "todoapp.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": DB_NAME,
-        "USER": DB_USER,
-        "PASSWORD": DB_PASSWORD,
-        "HOST": DB_HOST,
-        "PORT": DB_PORT,
+        "NAME": DB_NAME,  # Add database name.
+        "USER": DB_USER,  # Add psql user name. For default use postgres.
+        "PASSWORD": DB_PASSWORD,  # Add user password if exists.
+        "HOST": DB_HOST,  # Set to empty string for localhost..
+        "PORT": DB_PORT,  # Psql service running port.
     },
 }
 
