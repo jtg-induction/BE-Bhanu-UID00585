@@ -1,5 +1,6 @@
 from users.models import CustomUser
 from django.db import models
+from users.models import CustomUser
 
 class Todo(models.Model):
     """

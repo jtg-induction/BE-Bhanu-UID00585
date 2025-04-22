@@ -1,11 +1,12 @@
 from rest_framework.authtoken.models import Token
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers 
 from users.models import CustomUser
-from django.contrib.auth.password_validation import validate_password 
- 
+
+
 class CustomUserSerializer(serializers.ModelSerializer):
     """
-    Serializer for the CustomUser  model.
+    Serializer for interacting with users data.
     """
 
     class Meta:
@@ -37,8 +38,8 @@ class UserTodoSerializer(CustomUserSerializer):
             "first_name",
             "last_name",
             "email",
-            "completed_count",
             "pending_count",
+            "completed_count",
         ]
 
 class CustomUserSerializerTodoWithoutID(UserTodoSerializer):

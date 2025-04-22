@@ -1,22 +1,21 @@
 from datetime import datetime
-from django.db.models.functions import Concat
-from projects.serializers import (
-    ProjectReportSerializer,
-    ProjectSerializerStartsWithA,
-    ProjectSerializer,
-)
-from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer
-from users.models import CustomUser
 
-from todos.models import Todo
-from projects.models import Project
 from django.db.models import Count, Prefetch, Q, Value
-import json
+from django.db.models.functions import Concat
+from users.models import CustomUser
 from users.serializers import (
     CustomUserSerializer,
     CustomUserWithProjectStatus,
     UserTodoSerializer,
 )
+from projects.models import Project
+from projects.serializers import (
+    ProjectReportSerializer,
+    ProjectSerializerStartsWithA,
+    ProjectSerializer,
+)
+from todos.models import Todo
+from todos.serializers import TodoDateRangeSerializer, TodoPendingSerializer, TodoSerializer
 
 # Add code to this util to return all users list in specified format.
 # [ {
@@ -147,6 +146,8 @@ def fetch_users_todo_stats():
     return UserTodoSerializer(users, many=True).data
 
 
+# Add code to this util to return top five users with maximum number of
+# pending todos in specified format.
 # Add code to this util to return top five users with maximum number of pending todos in specified format.
 # [{
 #   "id": 1,
@@ -178,7 +179,9 @@ def fetch_five_users_with_max_pending_todos():
     return TodoPendingSerializer(users, many=True).data
 
 
-# Add code to this util to return users with given number of pending todos in specified format.
+# Add code to this util to return users with given number of pending todos in
+# specified format.
+# Add code to this util to return users with given number of pending todos in specified format
 # e.g where n=4
 # [{
 #   "id": 1,
@@ -213,6 +216,8 @@ def fetch_users_with_n_pending_todos(n):
     return TodoPendingSerializer(users, many=True).data
 
 
+# Add code to this util to return todos that were created in between given
+# dates (add proper order too) and marked as
 # Add code to this util to return todos that were created in between given dates (add proper order too) and marked as
 # done in specified format.
 #  e.g. for given range - from 12-01-2021 to 12-02-2021
@@ -345,7 +350,6 @@ def fetch_project_wise_report():
     Util to fetch project wise todos pending &  count per user.
     :return: list of dicts - List of report data
     """
-    # Write your code here
     user_queryset = (
         CustomUser.objects.annotate(
             pending_count=Count("todo", filter=Q(todo__done=False)),
